@@ -1,0 +1,354 @@
+.divedenmap {
+	position: relative;
+	width: 258px;
+	height: 128px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#edenmap {
+	position: absolute;
+	z-index: 10;
+	top: 0;
+	left: 0;
+}
+
+:root {
+    --eden_night_opacity: 1;
+    --pc_img_hair_color: #000;
+    --lil_pc_y: 0;
+    --lil_pc_x: 0;
+    --lil_eden_y: 0;
+    --lil_eden_x: 0;
+    --pc_img_lefteye_color: #000;
+    --pc_img_righteye_color: #000;
+    --mask: 0;
+    --pc_img_shirt_color: #000;
+    --pc_img_shoes_color: #000;
+    --pc_img_shorts_color: #000;
+    --pc_width: 0;
+}
+
+.edenmapnight {
+    position: absolute;
+    z-index: 25;
+    top: 0;
+	left: 0;
+    mix-blend-mode: multiply; 
+    opacity: var(--eden_night_opacity);
+}
+
+.edenmapnight_light {
+    position: absolute;
+    z-index: 14;
+    top: 0;
+	left: 0;
+    isolation:isolate; 
+    animation: window_light 5s infinite;
+}
+
+.edenmapnight_light_blur {
+    position: absolute;
+    z-index: 13;
+    top: 0;
+	left: 0;
+    mix-blend-mode: hard-light; 
+    isolation:isolate; 
+    animation: window_light_blur 3s infinite ;
+}
+
+.edenmapnight_light_fireplace {
+    position: absolute;
+    z-index: 13;
+    top: 0;
+	left: 0;
+    mix-blend-mode: overlay; 
+    isolation:isolate; 
+    opacity: 0.3;
+}
+
+.edenmapfence {
+    position: absolute;
+    z-index: 20;
+    top: 0;
+	left: 0;
+}
+
+.edenmapitem {
+    position: absolute;
+    z-index: 11;
+    top:0;
+    left:0;
+}
+
+.edenmapfurniture {
+    position: absolute;
+    z-index: 12;
+    top:0;
+    left:0;
+}
+
+.edenmapcarpet {
+    position: absolute;
+    z-index: 10;
+    top:0;
+    left:0;
+}
+
+.pc_img_hair_color_cover {
+    transform: translateX(-100%);
+    filter: drop-shadow(calc(var(--pc_width)*1px) 0 var(--pc_img_hair_color));
+    z-index: 19;
+    mix-blend-mode: overlay;
+    position: absolute;
+}
+
+.pc_img_lefteye_color_cover {
+    transform: translateX(-100%);
+    filter: drop-shadow(calc(var(--pc_width)*1px) 0 var(--pc_img_lefteye_color));
+    z-index: 17;
+    mix-blend-mode: overlay;
+    position: absolute;
+}
+
+.pc_img_righteye_color_cover {
+    transform: translateX(-100%);
+    filter: drop-shadow(calc(var(--pc_width)*1px) 0 var(--pc_img_righteye_color));
+    z-index: 17;
+    mix-blend-mode: overlay;
+    position: absolute;
+}
+
+.pc_img_shirt_color_cover {
+    transform: translateX(-100%);
+    filter: drop-shadow(calc(var(--pc_width)*1px) 0 var(--pc_img_shirt_color));
+    z-index: 19;
+    mix-blend-mode: overlay;
+    position: absolute;
+}
+
+.pc_img_shoes_color_cover {
+    transform: translateX(-100%);
+    filter: drop-shadow(calc(var(--pc_width)*1px) 0 var(--pc_img_shoes_color));
+    z-index: 17;
+    mix-blend-mode: overlay;
+    position: absolute;
+}
+
+.pc_img_shorts_color_cover {
+    transform: translateX(-100%);
+    filter: drop-shadow(calc(var(--pc_width)*1px) 0 var(--pc_img_shorts_color));
+    z-index: 18;
+    mix-blend-mode: overlay;
+    position: absolute;
+}
+
+.pc_img_body{
+    position: absolute;
+    z-index: 15;
+}
+
+.pc_img_left_eye{
+    position: absolute;
+    z-index: 16;
+}
+
+.pc_img_right_eye{
+    position: absolute;
+    z-index: 16;
+}
+
+.pc_img_dress{
+    position: absolute;
+    z-index: 18;
+}
+
+.pc_img_shirt{
+    position: absolute;
+    z-index: 18;
+}
+
+.pc_img_shorts{
+    position: absolute;
+    z-index: 17;
+}
+
+.pc_img_shoes{
+    position: absolute;
+    z-index: 16;
+}
+
+.pc_img_hair{
+    position: absolute;
+    z-index: 18;
+    isolation: isolate;
+}
+
+.pc_div{
+    position: absolute;
+    transform: translateY(calc(var(--lil_pc_y)*1px))translateX(calc(var(--lil_pc_x)*1px));
+    height: 28px;
+    width: 26px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.pc_night{
+    position: absolute;
+    z-index: 25;
+    top: 0;
+	left: 0;
+    mix-blend-mode: multiply; 
+    opacity: var(--eden_night_opacity);
+    mask-image: var(--mask);
+    mask-repeat: no-repeat;
+    -webkit-mask-image: var(--mask);
+    -webkit-mask-repeat: no-repeat;
+}
+
+.eden_div{
+    position: absolute;
+    transform: translateY(calc(var(--lil_eden_y)*1px))translateX(calc(var(--lil_eden_x)*1px));
+    margin: 0;
+    padding: 0;
+    width: 30px;
+    height: 40px;
+    overflow: hidden;
+    z-index: 3;
+}
+
+.sleep_effect{
+    position: absolute;
+    z-index: 20;
+}
+
+.lovecob {
+	width: 182px;
+	height: 60px;
+	background: linear-gradient(#172859,30%, #1D4074);
+	text-shadow: 0 0 10px #6BADDF;
+	border-radius: 5px;
+	color: white;
+	font-weight: bold;
+	position: absolute;
+	overflow: hidden;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.2em;
+	box-shadow: 0 0 10px #1D4074;
+	letter-spacing: 0.1em;
+    display: flex;
+}
+
+.lovecob:hover {
+    background: #0E274D;
+}
+
+.thank-you {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -20px); 
+    opacity: 0;
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.thank-you.show {
+    opacity: 1;
+    transform: translate(-50%, -50px); /* 淡入后文字上移 */
+}
+
+.thank-you.hide {
+    opacity: 0;
+    transform: translate(-50%, -70px); /* 淡出时文字继续上移 */
+}
+
+.stormDiv {
+    width: 256px;
+    height: 128px;
+    position: absolute;
+    z-index: 0;
+    transform: translateX(2px);
+    pointer-events: none;
+  }
+  .stormDiv:after {
+    content: '';
+    width: 256px;
+    height: 128px;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.05);
+    z-index: 1;
+    -webkit-animation: thunder-bg 6s infinite;
+            animation: thunder-bg 6s infinite;
+  }
+  
+  .stormDiv canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  
+  #canvas3 {
+    z-index: 5;
+  }
+  
+  #canvas2 {
+    z-index: 10;
+  }
+  
+  #canvas1 {
+    z-index: 100;
+  }
+  
+@keyframes thunder-bg {
+    0% {
+      background-color: rgba(34, 34, 34, 0.3);
+    }
+    9% {
+      background-color: rgba(34, 34, 34, 0.3);
+    }
+    10% {
+      background-color: rgba(59, 59, 59, 0.1);
+    }
+    10.5% {
+      background-color: rgba(34, 34, 34, 0.3);
+    }
+    80% {
+      background-color: rgba(34, 34, 34, 0.3);
+    }
+    82% {
+      background-color: rgba(59, 59, 59, 0.1);
+    }
+    83% {
+      background-color: rgba(34, 34, 34, 0.3);
+    }
+    83.5% {
+      background-color: rgba(59, 59, 59, 0.1);
+    }
+    100% {
+      background-color: rgba(34, 34, 34, 0.3);
+    }
+  }
+
+@keyframes window_light_blur {
+    0%{opacity:1;}
+    25%{opacity:0.8;}
+    50%{opacity:0.7;}
+    75%{opacity:0.8;}
+    100%{opacity:1;}
+}
+
+@keyframes window_light {
+    0%{opacity:1;}
+    25%{opacity:0.85;}
+    50%{opacity:0.8;}
+    75%{opacity:0.85;}
+    100%{opacity:1;}
+}
+

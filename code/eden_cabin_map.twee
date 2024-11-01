@@ -1,0 +1,846 @@
+:: Eden Cabin Map [widget]
+
+<<widget "Eden_Map_Actions">>
+	<script>
+		var eden_night_opacity_night = (1-((1230 - (Time.hour*60+Time.minute))/90));
+		var eden_night_opacity_morning = ((480-(Time.hour*60+Time.minute))/120);
+		function edenmapMove(moveTo) {
+			const currentPassage = V.passage;
+			const destinationTable = [];
+			for (let i = 1; i < V.link_table.length; i++) {
+				const temp = V.link_table[i].split("|")[1];
+				if (temp) {
+					destinationTable.push(temp.split("]]")[0]);
+				}
+			}
+			const available = V.edenmap.available;
+			window.ironmanFlag = true;
+			delete window.ironmanFlag;
+			switch (moveTo) {
+				case "Clearing Mushrooms":
+					Wikifier.wikifyEval("<<pass 60>>");
+					break;
+					
+				default:
+					Wikifier.wikifyEval("<<pass 0>>");
+					break;
+			}
+			SugarCube.Engine.play(moveTo);
+		}
+		window.edenmapMove = edenmapMove;
+
+	</script>
+	<<if $avaliableMapsVersion is 2>>
+		<<set _edenmap to clone($edenmap)>>
+	<</if>>
+	<<set $edenmap to {
+		"hideLinks": false,
+		"available": {
+			"Eden Clearing": ["Clearing Mushrooms","Eden Porch","Eden Plots","Clearing Weeding","Clearing Spring","Clearing Debris","Eden Cabin"],
+			"Eden Cabin": [],
+			"Clearing Spring": [],
+			"Clearing Debris": [],
+			"Eden Plots": [],
+			"Eden Porch": [],
+			"Clearing Mushrooms": [],
+			"Clearing Eden Actions": [],
+			"Clearing Weeding":[],
+			"Clearing Fondle":[],
+      "Eden Lunch":[],
+      "Eden Shoot":[],
+      "Eden Shoot First Focus":[],
+      "Eden Shoot Focus":[],
+		},
+		"edenarrayList": ["Eden Cabin","Eden Porch","Eden Plots","Eden Clearing"]
+	}>>
+	<<if $edengarden lt 4 || $passage is "Clearing Weeding">>
+		<<set $edenmap.edenarrayList.push("Clearing Weeding")>>
+	<</if>>
+	<<if $edenshrooms lt 4>>
+		<<set $edenmap.edenarrayList.push("Clearing Mushrooms")>>
+	<</if>>
+	<<if $edenspring lt 4>>
+		<<set $edenmap.edenarrayList.push("Clearing Debris")>>
+	<<else>>
+		<<set $edenmap.edenarrayList.push("Clearing Spring")>>
+	<</if>>
+	<<set $availableMapsVersion to 3>>
+	<<if $availableMapsVersion isnot 3>>
+		<<Eden_Map_Actions>>
+	<</if>>
+ 	<<unset $avaliableMapsVersion>>
+<</widget>>
+
+<<widget "Eden_Cabin_Map">>
+	<<if $edenmap.edenarrayList is undefined>>
+		<<set $edenmap.edenarrayList to ["Eden Cabin","Clearing Mushrooms","Eden Porch","Eden Plots","Clearing Weeding","Clearing Spring","Clearing Debris","Eden Clearing"]>>
+	<</if>>
+
+	<<if $options.images is 1 >>
+		<<set _EdenBoxLocation to [
+			{ x: 89,		y: 56}, /*小屋门口*/
+	        { x: 26,		y: 34}, /*椅子*/
+   	        { x: 223,		y: 93}, /*下方田地*/
+			{ x: -35,     y: -35} /*初始室外地点*/
+		]>>
+
+		<<if $edengarden lt 4 || $passage is "Clearing Weeding">>
+	 	    <<set _EdenBoxLocation.push({ x: 223,		y: 45}, /*上方田地*/)>>
+	    <</if>>
+	    <<if $edenshrooms lt 4>>
+	     	<<set _EdenBoxLocation.push({ x: 198,		y: 75}, /*蘑菇桶*/)>>
+	    <</if>>
+	    <<if $edenspring lt 4>>
+	    	<<set _EdenBoxLocation.push({ x: 7,		y: 86}, /*泉水未清理*/)>>
+	    <<else>>
+		    <<set _EdenBoxLocation.push({ x: 7,		y: 86}, /*泉水已清理*/)>>
+	    <</if>>
+
+		/*This version of sugarcube doesn't perform any processing inside of SVG elements, so we need to perform those actions ourselves inside a custom macro */
+		<div class="divedenmap">
+		<<svg 260 130>>
+			<image x="2" href="img/misc/edenmap.gif"/>
+			<image x="2" href="img/misc/edenmapfence.png"/>
+			<<if Time.season is "winter">>
+			    <image x="2" href="img/misc/edenmap_winter.png"/>
+		    <</if>>
+			<<switch $edenshrooms>>
+				<<case 1>>
+					<image class="edenmapitem" x="2" href="img/misc/edenmushroom1.png"/>
+				<<case 2>>
+					<image class="edenmapitem" x="2" href="img/misc/edenmushroom2.png"/>
+				<<case 3>>
+					<image class="edenmapitem" x="2" href="img/misc/edenmushroom3.png"/>
+				<<case 4>>
+					<image class="edenmapitem" x="2" href="img/misc/edenmushroom4.png"/>
+			<</switch>>
+			<<switch $edengarden>>
+				<<case 0>>
+					<image class="edenmapitem" x="2" href="img/misc/edenweeding0.png"/>
+				<<case 1>>
+					<image class="edenmapitem" x="2" href="img/misc/edenweeding1.png"/>
+				<<case 2>>
+					<image class="edenmapitem" x="2" href="img/misc/edenweeding2.png"/>
+				<<case 3>>
+					<image class="edenmapitem" x="2" href="img/misc/edenweeding3.png"/>
+			<</switch>>
+			<<switch $edenspring>>
+				<<case 0>>
+					<image class="edenmapitem" x="2" href="img/misc/edenspring0.gif"/>
+				<<case 1>>
+					<image class="edenmapitem" x="2" href="img/misc/edenspring1.gif"/>
+				<<case 2>>
+					<image class="edenmapitem" x="2" href="img/misc/edenspring2.gif"/>
+				<<case 3>>
+					<image class="edenmapitem" x="2" href="img/misc/edenspring3.gif"/>
+			<</switch>>
+			<<if Time.hour gte 19 || Time.hour lt 8 >>
+				<image class="edenmapnight" x="2" href="img/misc/edenmapnight.png"/>
+				<script>
+					var edenmapnight = document.getElementsByClassName("edenmapnight");
+					
+					for(var i = 0 ; i < edenmapnight.length ; i++){
+						if((Time.hour*60+Time.minute) < 1230 && (Time.hour*60+Time.minute) >= 1140)
+						{
+							edenmapnight[i].style.setProperty("--eden_night_opacity",eden_night_opacity_night) 
+						}
+						else if((Time.hour*60+Time.minute) < 480 && (Time.hour*60+Time.minute) >= 360)
+						{
+							edenmapnight[i].style.setProperty("--eden_night_opacity",eden_night_opacity_morning) 
+						}
+						else
+						{
+							edenmapnight[i].style.setProperty("--eden_night_opacity",1)
+						}
+					}
+				</script>
+				<<if Time.hour gte 19 || Time.hour lt 7 >>
+					<image class="edenmapnight_light" x="2" href="img/misc/edenmapnight_light.png"/>
+					<image class="edenmapnight_light_blur" x="2" href="img/misc/edenmapnight_light_blur.png"/>
+				<</if>>
+			<</if>>
+			<<for _i to 0; _i lt $edenmap.edenarrayList.length; _i++>>
+				<<set _canMoveTo = $debug || $edenmap.available[$passage].includes($edenmap.edenarrayList[_i])>>
+				<<set _showMarker = $debug || ($options.mapMarkers && (_canMoveTo || $passage is $edenmap.edenarrayList[_i]))>>
+
+				<a class="mapMove"
+						@onclick="'edenmapMove(V.edenmap.edenarrayList[' + _i + ']);'"
+						@alt="$edenmap.edenarrayList[_i] + (_canMoveTo ? ' (0:00)' : '')"
+						@title="$edenmap.edenarrayList[_i] + (_canMoveTo ? ' (0:00)' : '')">
+
+					<rect @x="_EdenBoxLocation[_i].x"
+							@y="_EdenBoxLocation[_i].y"
+							height="34"
+							width="30"
+							@style="'stroke:cyan;fill-opacity:0;stroke-opacity:' + (_showMarker ? '0.6' : '0') + ';'">
+					</rect>
+				</a>
+			<</for>>
+		<</svg>>
+		</div>
+	<</if>>
+	<<if $options.images is 1>>
+	<script>
+
+        window.modImgLoaderHooker.addDynamicImageTagReplacePassage(V.passage);
+
+		var night_img = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACACAYAAADktbcKAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABoUlEQVR4nO3UMQHAIADAsDGdvPjAOcjgaKKgV8dc+3xA0v86AHjHACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDMACDsAqyLA0D3g78UAAAAAElFTkSuQmCC";
+
+		var eden_div = document.getElementsByClassName("divedenmap");
+		var lil_pc_div_img = document.createElement("div");
+		lil_pc_div_img.setAttribute("class","pc_div");
+        var lil_eden_div_img = document.createElement("div");
+        var lil_eden = document.createElement("img");
+        lil_eden_div_img.setAttribute("class","eden_div");
+        var eden_direction = "default";
+        var pc_direction = "front";
+
+        var lil_pc_x,lil_pc_y,lil_eden_x = 118,lil_eden_y = 55;
+        var pc_width = 26;
+        /*试图写一个获取图片宽度的函数，但是失败了。。 */
+		function randomPCdirection(){
+            switch(getRandom(1,4)){
+			    case 1:
+			    	pc_direction = "front";
+			    	break;
+			    case 2:
+			    	pc_direction = "left";
+			    	break;
+			    case 3:
+			    	pc_direction = "right";
+			    	break;
+			    case 4:
+			    	pc_direction = "back";
+			    	break;
+                default:
+                    pc_direction = "front";
+		    };
+        };
+
+		switch(getRandom(1, 6)){
+			case 1:
+				lil_pc_x = 88;
+				lil_pc_y = 78;
+				break;
+			case 2:
+				lil_pc_x = getRandom(48, 188);
+				lil_pc_y = 99;
+				break;
+			case 3:
+				lil_pc_x = getRandom(203, 231);
+				lil_pc_y = getRandom(23, 50);
+				break;
+			case 4:
+				lil_pc_x = getRandom(198, 231);
+				lil_pc_y = getRandom(88, 99);
+				break;
+			case 5:
+				lil_pc_x = 41;
+				lil_pc_y = 53;
+				break;
+			case 6:
+				lil_pc_x = 0;
+				lil_pc_y = 28;
+				break;
+			default:
+				lil_pc_x = 88;
+				lil_pc_y = 78;
+		};
+
+		if(V.worn.neck.collared !== 1 && V.edenaskcollar !== 1 && Time.hour >= 6 && V.passage == "Eden Clearing"){
+	        setPCandEdenPosition("right", 114, 66, "ask", 110, 45);
+            lil_eden_div_img.style.width = "50px";
+            lil_eden_div_img.style.height = "50px";
+        }
+		else if(T.edenPreyEvent && V.passage == "Eden Clearing" && Time.hour >= 11 && Time.hour <= 14 && V.daily.eden.hunting == 1 && !V.daily.eden_hunting){
+			setPCandEdenPosition("front", 88, 105, "breakfast_lust", 100, 98);
+		}
+		else if(!T.edenPreyEvent && V.passage == "Eden Clearing" && Time.hour >= 11 && Time.hour <= 14 && V.daily.eden.hunting == 1 && !V.daily.eden_hunting){
+			setPCandEdenPosition("left",95,71,"pet_head",80,65);
+		}
+		else if(V.edenCagedEscape && Time.hour >= 7 && V.passage == "Eden Clearing"){
+			setPCandEdenPosition("back",87,98,"default",95,70);
+			lil_eden_div_img.style.zIndex = "0";
+			apply_effect("sleep_effect", "img/misc/lil_eden/angry.gif", 113, 65, eden_div[0]);
+		}
+		else if (V.edenhurt && !V.eden_hurt){
+			setPCandEdenPosition("right",83,67,"wound_stand",98,55);
+		}
+		else if(V.passage == "Clearing Eden Actions"){
+			setPCandEdenPosition("right",103,66,"default",118,55);
+		}
+		else if(V.passage =="Clearing Fondle"){
+			setPCandEdenPosition("weeding_lust",230,40,"weeding_lust",221,35);
+			pc_width = 33;
+			lil_pc_div_img.style.width = "33px";
+		}
+    else if(V.passage == "Eden Shoot" || V.passage == "Eden Shoot First Focus" || V.passage == "Eden Shoot Focus"){
+      pc_width = 175;
+      lil_pc_div_img.style.width = "175px";
+      lil_pc_div_img.style.height = "33px";
+      setPCandEdenPosition("shoot",57,95,"shoot",49,94);
+    }
+    else if(V.passage == "Eden Lunch"){
+      pc_width = 28;
+      lil_pc_div_img.style.width = "28px";
+      lil_eden_div_img.style.zIndex = "0";
+      setPCandEdenPosition("lunch" + V.daily.eden_lunch,20,27,"lunch",2,23);
+    }
+		else if(V.passage == "Clearing Weeding" && V.danger >= (9900 - V.allure) && ((Time.hour > 6 && Time.hour < 11) || Time.hour > 14) && !(V.rng >= 51 && V.tentacledisable == "f" && (V.hallucinations >= 2 || V.backgroundTraits.includes("plantlover")))){
+			setPCandEdenPosition("front", 220, 40, "breakfast_lust", 232, 33);
+		}
+		else if(Time.hour >= 9 && Time.hour <= 10){
+			setPCandEdenPosition(null,null,null,"water",227,38);
+		}
+		else if(Time.hour == 15 && !(V.rng >= 91 && !V.edenhurt)){
+			setPCandEdenPosition(null,null,null,"peel",2,23);
+		}
+		else if(Time.hour == 16){
+			setPCandEdenPosition(null,null,null,"axe",95,75);
+			if(!V.daily.eden_chop_lust && C.npc.Eden.lust >= 26){
+				setPCandEdenPosition("back",88,93,null,null,null);
+				lil_eden_div_img.style.zIndex = "0";
+			}
+		}
+		
+
+		/*pc单独行动*/
+		if(V.passage == "Clearing Weeding" && !(V.danger >= (9900 - V.allure))){
+			setPCandEdenPosition("weeding",230,40,null,null,null);
+		}
+		else if(V.passage == "Clearing Spring"){
+			setPCandEdenPosition("spring",8,85,null,null,null);
+			if(V.danger >= (9900 - V.allure) && C.npc.Eden.lust >= 26 && ((Time.hour > 6 && Time.hour < 11) || Time.hour > 14)){
+				setPCandEdenPosition("spring",null,null,"bath_withpc",21,77);
+				lil_eden_div_img.style.zIndex = "0";
+			}
+		}
+		else if(V.passage == "Eden Porch"){
+			setPCandEdenPosition("sit_left",28,25,null,null,null);
+		}
+		else if(V.passage == "Eden Plots"){
+			setPCandEdenPosition(null,230,80,null,null,null);
+		}
+	
+		lil_eden.setAttribute("src","img/misc/lil_eden/" + eden_direction + "_" + V.NPCName[6].pronoun + ".gif");
+        lil_eden.setAttribute("class","pc_img_body");
+        lil_eden_div_img.appendChild(lil_eden);
+		lil_pc_div_img.style.setProperty("--lil_pc_x",lil_pc_x);
+		lil_pc_div_img.style.setProperty("--lil_pc_y",lil_pc_y);
+        lil_eden_div_img.style.setProperty("--lil_eden_x",lil_eden_x);
+        lil_eden_div_img.style.setProperty("--lil_eden_y",lil_eden_y);
+
+		/*遍历颜色变量 */
+		var lil_pc_hair_color = getColor(setup.colours.hair, V.haircolour);
+		if(V.makeup.eyelenses.right != 0){
+			var lil_pc_righteye_color = getSpecialColor(tinycolor.names, V.makeup.eyelenses.right);
+		}
+		else{
+			var lil_pc_righteye_color = getColor(setup.colours.eyes, V.rightEyeColour);
+		}
+		if(V.makeup.eyelenses.left != 0){
+			var lil_pc_lefteye_color = getSpecialColor(tinycolor.names, V.makeup.eyelenses.left);
+		}
+		else{
+			var lil_pc_lefteye_color = getColor(setup.colours.eyes, V.leftEyeColour);
+		}
+
+var lil_pc_upper_color = resolveClothColor(V.worn.upper);
+var lil_pc_lower_color = resolveClothColor(V.worn.lower);
+var lil_pc_feet_color = resolveClothColor(V.worn.feet);
+
+
+if (
+    (
+        (
+            /* 狩猎时间判定 */
+            (
+                (Time.hour <= 10 && Time.hour >= 9) ||
+                (Time.hour >= 15 && Time.hour < 17) ||
+                (V.daily.eden.hunting == 1 && !V.daily.eden_hunting && Time.hour < 15)
+            ) && 
+            (!(V.daily.eden_hunting && Time.hour >= 11 && Time.hour <= 14) || T.edenPreyEvent)
+        ) 
+        /* 笼子判定 */
+        || 
+        (V.edenCagedEscape && Time.hour >= 7 && V.passage == "Eden Clearing")
+    ) 
+    /* 冲进衣柜判定 */
+    && 
+    !(
+        (
+            (V.exposed >= 2 && V.exhibitionism <= 74) || 
+            (V.exposed >= 1 && V.exhibitionism <= 54)
+        ) && 
+        isLoveInterest("Eden") && 
+        (Time.hour <= 8 || V.daily.eden.hunting == 1 || Time.hour >= 17)
+    )
+
+/* 泉水判定 */
+|| 
+(
+    V.passage == "Clearing Spring" &&
+    V.danger >= (9900 - V.allure) &&
+    C.npc.Eden.lust >= 26 &&
+    ((Time.hour > 6 && Time.hour < 11) || Time.hour > 14)
+)
+
+/* pc浇花判定 */
+||
+(
+	V.passage == "Clearing Weeding" && 
+	V.danger >= (9900 - V.allure) && 
+	((Time.hour > 6 && Time.hour < 11) || Time.hour > 14) && 
+	!(V.rng >= 51 && V.tentacledisable == "f" && (V.hallucinations >= 2 || V.backgroundTraits.includes("plantlover")))
+)
+|| V.passage == "Clearing Fondle"
+
+/* 打枪*/
+|| V.passage == "Eden Shoot" || V.passage == "Eden Shoot First Focus" || V.passage == "Eden Shoot Focus"
+
+){
+            
+			    eden_div[0].appendChild(lil_eden_div_img);
+            
+                if (V.passage == "Eden Clearing"){
+                    lil_eden_div_img.style.cursor = "pointer";
+                    lil_eden_div_img.onclick=function(){
+                        edenmapMove("Clearing Eden Actions");
+                    };
+                };
+            
+        }
+		var pc_all_imgs = appendPC();
+
+		for(var i =0;i<pc_all_imgs.length;i++){
+		    lil_pc_div_img.appendChild(pc_all_imgs[i]);
+		};
+
+		var mask_url = "img/misc/lil_pc/" + pc_direction + "/mask.gif";
+		var eden_mask_url = "img/misc/lil_eden/" + eden_direction + "_" + V.NPCName[6].pronoun + ".gif";
+
+        createNight(mask_url,lil_pc_div_img);
+        createNight(eden_mask_url,lil_eden_div_img);
+    
+	if (Weather.precipitation == "snow"){
+		/*源码来自 https://gitee.com/qxscj/js-demo/blob/master/html+css/32-1.html，这段代码用于生成雪景*/
+		var cvs = document.createElement("canvas");
+const ctx = cvs.getContext('2d');
+const width = 256, height = 128;
+cvs.width = 256;
+cvs.height = 128;
+if(Time.hour >= 19 || Time.hour < 8){
+ctx.fillStyle = '#8D99B7';}
+else{ctx.fillStyle = '#ffffff';}
+const bgColors = Array.from(new Array(80)).map(v => {
+    return {
+        x: Math.random() * width,
+        y: Math.random() * height,
+        step: Math.random() * 2 + 0.5
+    };
+});
+
+let colors = [];
+const sendText = (text, fontSize = 50, stepV = 40) => {
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, width, height);
+    ctx.font = `bold ${fontSize}px 微软雅黑`;
+    if(Time.hour >= 19 || Time.hour < 8){
+ctx.fillStyle = '#8D99B7';}
+else{ctx.fillStyle = '#ffffff';}
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, width / 2, height / 2);
+    const data = ctx.getImageData(0, 0, width, height).data;
+
+    let index = 0;
+    let bl = 4;
+    let useIndex = 0;
+    for (let i = 0; i < data.length; i += 4) {
+        const x = index % width;
+        const y = Math.ceil(index / width);
+        if (x % bl === 0 && y % bl === 0 && data[i] === 255 && data[i + 1] === 255 && data[i + 2] === 255) {
+            const rx = Math.floor(Math.random() * fontSize) + width / 2 - fontSize / 2;
+            const ry = Math.floor(Math.random() * fontSize) + height / 2 - fontSize / 2;
+
+            const item = colors[useIndex];
+            if (item) {
+                colors[useIndex] = {
+                    x,
+                    y,
+                    rx: item.x,
+                    ry: item.y,
+                    stepX: Math.abs(item.x - x) / stepV,
+                    stepY: Math.abs(item.y - y) / stepV
+                };
+            } else {
+                colors[useIndex] = {
+                    x,
+                    y,
+                    rx,
+                    ry,
+                    stepX: Math.abs(rx - x) / stepV,
+                    stepY: Math.abs(ry - y) / stepV
+                };
+            }
+            useIndex++;
+        }
+        index++;
+    }
+    if (useIndex < colors.length) {
+        colors.splice(useIndex, colors.length - useIndex);
+    }
+};
+
+const render = () => {
+    ctx.clearRect(0, 0, width, height);
+    ctx.beginPath();
+    colors.forEach(v => {
+        if (v.rx > v.x) {
+            v.rx -= v.stepX;
+            if (v.rx < v.x) {
+                v.rx = v.x;
+            }
+        } else if (v.rx < v.x) {
+            v.rx += v.stepX;
+            if (v.rx > v.x) {
+                v.rx = v.x;
+            }
+        }
+
+        if (v.ry > v.y) {
+            v.ry -= v.stepY;
+            if (v.ry < v.y) {
+                v.ry = v.y;
+            }
+        } else if (v.ry < v.y) {
+            v.ry += v.stepY;
+            if (v.ry > v.y) {
+                v.ry = v.y;
+            }
+        }
+        ctx.rect(v.rx, v.ry, 1, 1);
+    });
+    bgColors.forEach(v => {
+        v.y = v.y > height ? 0 : (v.y + v.step);
+        ctx.rect(v.x, v.y, 1, 1);
+    });
+
+    ctx.fill();
+    requestAnimationFrame(render);
+};
+render();
+
+const awaitSendText = async (txt, fontSize, stepV) => {
+    return new Promise(resolve => {
+        sendText(txt, fontSize, stepV);
+        colors.sort(v => Math.random() - 0.5);
+        setTimeout(() => resolve(), 2000 + (stepV > 40 ? 1000 : 0));
+    });
+};
+cvs.style.position = "absolute";
+cvs.style.pointerEvents = "none";
+eden_div[0].appendChild(cvs);
+	}
+	else if(Weather.name == "thunderStorm" || Weather.name == "heavyPrecipitation"){
+		/*大雨或风暴天气，源码来自https://sc.chinaz.com/jiaoben/180824536370.htm*/
+
+		var isCanvasLoaded = false; 
+
+        function initCanvases() {
+        if (isCanvasLoaded) return; 
+		var stormDiv = document.createElement('div');
+		stormDiv.className = "stormDiv";
+		var canvas1 = document.createElement('canvas');
+        var canvas2 = document.createElement('canvas');
+        var canvas3 = document.createElement('canvas');
+        canvas1.id = 'canvas1';
+        canvas2.id = 'canvas2';
+        canvas3.id = 'canvas3';
+        canvas1.style.pointerEvents = 'none';
+        canvas2.style.pointerEvents = 'none';
+        canvas3.style.pointerEvents = 'none';
+        stormDiv.appendChild(canvas1);
+        stormDiv.appendChild(canvas2);
+        stormDiv.appendChild(canvas3);
+		eden_div[0].appendChild(stormDiv);
+
+        var ctx1 = canvas1.getContext('2d');
+        var ctx2 = canvas2.getContext('2d');
+        var ctx3 = canvas3.getContext('2d');
+		var rainthroughnum = 100;
+var speedRainTrough = 25;
+var RainTrough = [];
+
+var rainnum = 130;
+var rain = [];
+
+var lightning = [];
+var lightTimeCurrent = 0;
+var lightTimeTotal = 0;
+
+var w = canvas1.width = canvas2.width = canvas3.width = 256;
+var h = canvas1.height = canvas2.height = canvas3.height = 128;
+window.addEventListener('resize', function() {
+  w = canvas1.width = canvas2.width = canvas3.width = 256;
+  h = canvas1.height = canvas2.height = canvas3.height = 128;
+});
+
+function random(min, max) {
+  return Math.random() * (max - min + 1) + min;
+}
+
+function clearcanvas1() {
+  ctx1.clearRect(0, 0, w, h);
+}
+
+function clearcanvas2() {
+  ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+}
+
+function clearCanvas3() {
+  ctx3.globalCompositeOperation = 'destination-out';
+  ctx3.fillStyle = 'rgba(0,0,0,' + random(1, 30) / 100 + ')';
+  ctx3.fillRect(0, 0, w, h);
+  ctx3.globalCompositeOperation = 'source-over';
+};
+
+function createRainTrough() {
+  for (var i = 0; i < rainthroughnum; i++) {
+    RainTrough[i] = {
+      x: random(0, w),
+      y: random(0, h),
+      length: Math.floor(random(1, 830)),
+      opacity: Math.random() * 0.2,
+      xs: random(-2, 2),
+      ys: random(5, 10)
+    };
+  }
+}
+
+function createRain() {
+  for (var i = 0; i < rainnum; i++) {
+    rain[i] = {
+      x: Math.random() * w,
+      y: Math.random() * h,
+      l: Math.random() * 1,
+      xs: -4 + Math.random() * 4 + 2,
+      ys: Math.random() * 6 + 5
+    };
+  }
+}
+
+function createLightning() {
+  var x = random(10, w - 10);
+  var y = 0;
+
+  var createCount = random(1, 3);
+  for (var i = 0; i < createCount; i++) {
+    single = {
+      x: x,
+      y: y,
+      xRange: random(5, 30),
+      yRange: random(10, 25),
+      path: [{
+        x: x,
+        y: y
+      }],
+      pathLimit: random(40, 55)
+    };
+    lightning.push(single);
+  }
+};
+
+function drawRainTrough(i) {
+  ctx1.beginPath();
+  var grd = ctx1.createLinearGradient(0, RainTrough[i].y, 0, RainTrough[i].y + RainTrough[i].length);
+  grd.addColorStop(0, "rgba(255,255,255,0)");
+  grd.addColorStop(1, "rgba(255,255,255," + RainTrough[i].opacity + ")");
+
+  ctx1.fillStyle = grd;
+  ctx1.fillRect(RainTrough[i].x, RainTrough[i].y, 1, RainTrough[i].length);
+  ctx1.fill();
+}
+
+function drawRain(i) {
+  ctx2.beginPath();
+  ctx2.moveTo(rain[i].x, rain[i].y);
+  ctx2.lineTo(rain[i].x + rain[i].l * rain[i].xs, rain[i].y + rain[i].l * rain[i].ys);
+  ctx2.strokeStyle = 'rgba(174,194,224,0.5)';
+  ctx2.lineWidth = 1;
+  ctx2.lineCap = 'round';
+  ctx2.stroke();
+}
+
+function drawLightning() {
+  for (var i = 0; i < lightning.length; i++) {
+    var light = lightning[i];
+
+    light.path.push({
+      x: light.path[light.path.length - 1].x + (random(0, light.xRange) - (light.xRange / 2)),
+      y: light.path[light.path.length - 1].y + (random(0, light.yRange))
+    });
+
+    if (light.path.length > light.pathLimit) {
+      lightning.splice(i, 1);
+    }
+
+    ctx3.strokeStyle = 'rgba(255, 255, 255, .1)';
+    ctx3.lineWidth = 2;
+    if (random(0, 15) === 0) {
+      ctx3.lineWidth = 6;
+    }
+    if (random(0, 30) === 0) {
+      ctx3.lineWidth = 8;
+    }
+
+    ctx3.beginPath();
+    ctx3.moveTo(light.x, light.y);
+    for (var pc = 0; pc < light.path.length; pc++) {
+      ctx3.lineTo(light.path[pc].x, light.path[pc].y);
+    }
+    if (Math.floor(random(0, 30)) === 1) {
+      ctx3.fillStyle = 'rgba(255, 255, 255, ' + random(1, 3) / 100 + ')';
+      ctx3.fillRect(0, 0, w, h);
+    }
+    ctx3.lineJoin = 'miter';
+    ctx3.stroke();
+  }
+};
+
+function animateRainTrough() {
+  clearcanvas1();
+  for (var i = 0; i < rainthroughnum; i++) {
+    if (RainTrough[i].y >= h) {
+      RainTrough[i].y = h - RainTrough[i].y - RainTrough[i].length * 5;
+    } else {
+      RainTrough[i].y += speedRainTrough;
+    }
+    drawRainTrough(i);
+  }
+}
+
+function animateRain() {
+  clearcanvas2();
+  for (var i = 0; i < rainnum; i++) {
+    rain[i].x += rain[i].xs;
+    rain[i].y += rain[i].ys;
+    if (rain[i].x > w || rain[i].y > h) {
+      rain[i].x = Math.random() * w;
+      rain[i].y = -20;
+    }
+    drawRain(i);
+  }
+}
+
+function animateLightning() {
+  clearCanvas3();
+  lightTimeCurrent++;
+  if (lightTimeCurrent >= lightTimeTotal) {
+    createLightning();
+    lightTimeCurrent = 0;
+    lightTimeTotal = 200;
+  }
+  drawLightning();
+}
+
+function init() {
+  createRainTrough();
+  createRain();
+  window.addEventListener('resize', createRainTrough);
+}
+init();
+
+function animloop() {
+  animateRainTrough();
+  animateRain();
+  animateLightning();
+  requestAnimationFrame(animloop);
+}
+animloop();
+
+isCanvasLoaded = true;}
+initCanvases();
+
+	}
+
+	else if (Weather.precipitation == "rain"){
+	/*这段代码用于生成下雨 源码来自https://codepen.io/tiffk935/pen/BGrGEZ*/
+$(document).ready(function() {
+  var rain_canvas = document.createElement("canvas");
+  rain_canvas.width = 256;
+  rain_canvas.height = 128;
+  rain_canvas.style.position = "absolute";
+  rain_canvas.style.pointerEvents = "none";
+  eden_div[0].appendChild(rain_canvas);
+  
+  if(rain_canvas.getContext) {
+    var ctx = rain_canvas.getContext('2d');
+    var w = rain_canvas.width;
+    var h = rain_canvas.height;
+    
+    ctx.strokeStyle = 'rgba(174,194,224,0.5)';
+    ctx.lineWidth = 1;
+    ctx.lineCap = 'round';
+    
+    var init = [];
+    var maxParts = 50;
+    for(var a = 0; a < maxParts; a++) {
+      init.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        l: Math.random() * 4,
+        xs: -1 + Math.random() * 2 + 2,
+        ys: Math.random() * 3 + 4
+      })
+    }
+    
+    var particles = [];
+    for(var b = 0; b < maxParts; b++) {
+      particles[b] = init[b];
+    }
+    
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      
+      for(var c = 0; c < particles.length; c++) {
+        var p = particles[c];
+        ctx.beginPath();
+        
+        ctx.moveTo(p.x, p.y);
+        
+        ctx.lineTo(p.x + p.l * p.xs, p.y + p.l * p.ys);
+        ctx.stroke();
+      }
+      
+      move();
+    }
+    
+    function move() {
+      for(var b = 0; b < particles.length; b++) {
+        var p = particles[b];
+        p.x += p.xs;
+        p.y += p.ys;
+        
+        if(p.x > w || p.y > h) {
+          p.x = Math.random() * w;
+          p.y = -20;
+        }
+      }
+    }
+    
+    setInterval(draw, 30);
+  }
+});
+	}
+
+
+	var eden_svg = document.getElementsByTagName("svg");
+	eden_svg[0].style.position = "absolute";
+
+/*刷新动图，让他们同步 */
+	reLoadAllGIFs();
+
+	</script>
+	<</if>>
+<</widget>>

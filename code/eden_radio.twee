@@ -1,0 +1,144 @@
+:: Eden Radio
+
+<!--金属和核相比，那我还是感觉我们金属牛批~-->
+    你拨弄收音机的旋钮，调整着它的频段，希望能找到有意思的电台。<br>
+    你找到了一个频段，音乐从阵阵杂音中传来。<br><br>
+    <!--这些数字是网易云音乐链接中的歌曲id-->
+    <<set $folk_blackmetal to ["1874736241","1874735389","1874735475"]>>
+    <<set $atmosperic_blackmetal to ["408943442","408943444","478736378","478731464","1802192","1802312"]>>
+    <<set $raw_blackmetal to ["1903401580","17276521","17449591","4174894","4373285"]>>
+    <<set $symphonic_metal to ["434022422","41642594","41642593","5085893","5085868"]>>
+    <<set $death_core to ["751660","751634","33516642","470547377","31917093","1484908823"]>>
+    <<set $gothic_metal to ["17637626","2535449","2535251","19436064","19436071","19436072"]>>
+    <<set $metal_core to ["1887200202","1887199341","1887200198","1887199339","1953007466","454924531","467394547","443277452","1837721917","467394546"]>>
+    <<set $melodic_deathmetal to ["393013","393007","29444522","2034316129","17068675","1465290258","26122956","2163565504","2022642786","5251830","29713327","29713321","574683587","471385189"]>>
+
+    <<set $shilmista to ["1340889759","1496760140","4225417","1962059682","2102267063","19436075"]>><!--感谢贴吧用户shilmista提供的曲目-->
+    <<set $xuanzhuanww to ["1223136"]>><!--感谢贴吧用户旋转ww提供的曲目-->
+    <<set $vyepyv to ["2621230975"]>><!--感谢贴吧用户vyepyv46提供的曲目-->
+    <<set $bujizhidu to ["423228325","454224842"]>><!--感谢贴吧用户不霁之都提供的曲目-->
+    <<set $gongfutiansha to ["2097515506","1450123091","29009655"]>><!--感谢贴吧用户工斧天杀提供的曲目-->
+    <<set $sanshiqiniang to ["2032501701"]>><!--感谢贴吧用户三十七娘TS提供的曲目-->
+    <<set $aqian to ["2140697162"]>><!--感谢贴吧用户啊谦啊啊提供的曲目-->
+    <<set $chongkai to ["1345353903"]>><!--感谢贴吧用户重开真的很麻烦提供的曲目 -->
+    <<set $zhongli to ["1369602061"]>><!--感谢贴吧用户鐘離是我的摯愛提供的曲目 -->
+    <<set $prat to ["2000879887"]>><!--感谢贴吧用户蒲拉特_prat！提供的曲目 -->
+    <<set $dottie to ["1397887534"]>><!--感谢贴吧用户✪๑提供的曲目（你的变量我该怎么命名啊）-->
+    <<set $richard to ["3313653","559037042","28171824","5057087"]>><!--感谢贴吧用户_GV6D8DP提供的曲目(你的变量我也不知道怎么命名啊)-->
+    <<set $xiatiya to ["1789389"]>><!--感谢贴吧用户夏缇娅提供的曲目 -->
+    <<set $tama to ["1831401767"]>><!--感谢贴吧用户我たま吃吃吃提供的曲目 -->
+
+    <<set $eden_radio_program to[]>>
+    <<set $eden_radio_program to $eden_radio_program.concat($folk_blackmetal,$atmosperic_blackmetal,$raw_blackmetal,$symphonic_metal,$death_core,$gothic_metal,$metal_core,$melodic_deathmetal,$shilmista,$xuanzhuanww,$vyepyv,$bujizhidu,$gongfutiansha,$sanshiqiniang,$aqian,$chongkai,$zhongli,$prat,$dottie,$richard,$xiatiya,$tama)>>
+    <<set $programid to Math.floor((Math.random()*$eden_radio_program.length))>>
+    <<set $program to ($eden_radio_program[$programid])>>
+    <<set $pain to 0>>
+    <<npc Eden>><<person1>>
+    
+
+    <iframe id="music" frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 @src="'https://music.163.com/outchain/player?type=2&id=' + $program + '&auto=0&height=66'"></iframe><br>
+    <<if $folk_blackmetal.includes($program)>>
+        这是一首民谣黑金属音乐，你听得有点伤感。<<trauma -1>><<ltrauma>><<pain +20>><<stress -3>><<lstress>>
+    <<elseif $program is "17068675">>
+        支持cob喵，支持cob谢谢喵！<br><div id="cob_buttton" style = "position: relative; width: 182px; height: 60px; }"><div class="lovecob" id="supportDiv">我要支持cob</div><div class="thank-you" id="thankYouMessage">谢谢支持喵</div></div>
+        <script>
+        var supportDiv = document.getElementById('supportDiv');
+        var thankYouMessage = document.getElementById('thankYouMessage');
+
+        supportDiv.addEventListener('click', () => {
+            thankYouMessage.classList.remove('hide');
+            void thankYouMessage.offsetWidth;
+            thankYouMessage.classList.add('show');
+
+            setTimeout(() => {
+                thankYouMessage.classList.remove('show');
+                setTimeout(() => {thankYouMessage.classList.add('hide');},1000);
+            }, 3000);
+        });
+    </script>
+    <<elseif $program is "574683587">>
+        星河烂漫多少人被遗忘，<br>长久注视天空穿过星芒，<br>我穿越永恒来不及回眸，<br>挥之不去，唤醒这场梦。<br><br><span style = "background: linear-gradient(to right,#e646c6 0%, #ffffff 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;">支持霾晦喵，支持霾晦谢谢喵！</span>
+    <<elseif $atmosperic_blackmetal.includes($program)>>
+        这是一首氛围黑金属音乐，这首歌的氛围让你沉浸不已，你快掉小珍珠了。<<trauma -3>><<pain +40>><<ltrauma>>
+    <<elseif $raw_blackmetal.includes($program)>>
+        这是一首原始黑金属音乐，歌词充满着暴力和邪恶，神殿的人也许不会喜欢它。<<stress -7>><<llstress>><<lgrace>><<grace -3>>
+    <<elseif $symphonic_metal.includes($program)>>
+        这是一首交响金属音乐，你感觉自己仿佛置身于高雅的歌剧院之中。<<ggpurity>><<purity +5>>
+    <<elseif $death_core.includes($program)>>
+        这是一首死核音乐，这首歌简直是劲霸狂，爽到不行口牙！<<stress -5>><<llstress>>
+    <<elseif $gothic_metal.includes($program)>>
+        <<if $NPCName[10].rage gte 20>>
+            这是一首哥特金属音乐，你感觉凯拉尔似乎要从收音机里爬出来了，你有点害怕。<<stress +3>><<gstress>><<ggrace>><<grace +5>>
+        <<else>>
+            这是一首哥特金属音乐，你觉得这首歌听起来阴暗而圣洁。<<stress -3>><<lstress>><<ggrace>><<grace +5>>
+        <</if>>
+    <<elseif $metal_core.includes($program)>>
+        这是一首金属核音乐，你忍不住地甩起了头，你有些担忧这样做会不会对你的颈椎有害。<<stress -7>><<llstress>><<pain +10>><<gpain>>
+    <<elseif $melodic_deathmetal.includes($program)>>
+        这是一首旋律死亡金属音乐，你有种想要去乐队现场玩死墙的想法。<<tiredness -3>><<ltiredness>><<stress -2>><<lstress>>
+    <<elseif $shilmista.includes($program)>>
+        <<switch $program>>
+            <<case $shilmista[0]>>
+               这是一首自然风味的氛围黑金。标题很应景呢！<<glove>><<gdom>><<npcincr Eden love 1>><<npcincr Eden dom 1>>
+            <<case $shilmista[1]>>
+               傲慢与偏见05版电影的舞曲，明快柔和。原著是伊甸最爱的书，你好奇<<he>>会不会分享一下观影偏好。<<stress -3>><<lstress>>
+            <<case $shilmista[2]>>
+               来自瑞典斯德哥尔摩的金属乐队，首张专辑《兰花》，融合了前卫摇滚厄运旋死多种元素，真是印象深刻！<<stress -4>><<lstress>>
+            <<case $shilmista[3]>>
+               女声演唱空灵澄澈，提醒听众及时回到林中小屋，回家。<<stress -3>><<lstress>>
+            <<case $shilmista[4]>>
+               饥饿的猎手与温顺的野兽对峙后选择围炉共生。据介绍曲子隐喻了精神疾病<<if Time.hour gte 17 || (Time.hour lte 8 && Time.hour gt 6)>>，你将目光投向火光映出的一对身影<</if>>。<<trauma -3>><<ltrauma>>
+            <<case $shilmista[5]>>
+               这是一首经典哥特金属，悲情剧院无可挑剔的浪漫演奏。<<stress -4>><<lstress>>
+        <</switch>>
+    <<elseif $xuanzhuanww.includes($program)>>
+        这是一首欢快的音乐，你感觉整座小屋都随着节奏轻轻抖动。<<stress -3>><<lstress>>
+    <<elseif $vyepyv.includes($program)>>
+        似乎是来自东方的神秘音乐，你听了后感到和伊甸更亲近了。<<glove>><<npcincr Eden love 1>><<stress -3>><<lstress>>
+    <<elseif $bujizhidu.includes($program)>>
+    <<switch $program>>
+    <<case $bujizhidu[0]>>
+        这是一首清爽的夏日电子音乐，这首歌诉说了关于青春，关于爱情的故事。<<stress -3>><<lstress>>
+    <<case $bujizhidu[1]>>
+        一首悠扬的萨克斯乐曲，和伊甸共同度过了这段时光。<<stress -3>><<lstress>>
+    <</switch>>
+    <<elseif $gongfutiansha.includes($program)>>
+        <<switch $program>>
+            <<case $gongfutiansha[0]>>
+                这是一首来自日本MYTH&ROID乐队的流行歌曲，小众、荒诞，如同奇异的歌剧，傲慢且优雅。<br>我是我，他者亦我，一如既往。<<lstress>><<stress -3>><<ltrauma>><<trauma -2>>
+            <<case $gongfutiansha[1]>>
+                天使堕落，恶魔夹道。随着金币碰撞的声音响起，贝利的面孔浮现于脑海，但他又像锁链摩擦的声音，让你想起伊甸。<br>谁随意地将圣经丢至一边?又是谁在漫不经心地念诵着?<br>一切尽是贪婪，是欲望。<<lstress>><<stress -3>>
+            <<case $gongfutiansha[2]>>
+                美国亚利桑那州的女歌手，她的声音带着随性与慵懒。<br>该隐被流放到伊甸园的东边，代表着放逐与流离，却也代表着自由。<br>世界很大，无论是谁，都不该困在牢笼。<<lstress>><<stress -3>><<ltrauma>><<trauma -2>>
+        <</switch>>
+    <<elseif $sanshiqiniang.includes($program)>>
+        一首甜腻意味的流行歌曲，你感到一阵赤裸而躁动的爱欲涌上心头。<<garousal>><<arousal +3>><<glust>><<npcincr Eden lust 1>>
+    <<elseif $prat.includes($program)>>
+        鼓点强到让大脑也可以跟着一起震动！
+    <<elseif $aqian.includes($program)>>
+        豪庭，十分甚至有九分的豪庭，使我大香蕉旋转<<garousal>><<arousal +3>><<ltrauma>><<trauma -3>>
+    <<elseif $dottie.includes($program)>>
+        这是一首慢节奏的曲子，你依偎在伊甸的怀里享受着片刻的宁静，至少在这你可以远离小镇上的危险，对吧。<<lstress>><<stress -3>><<ltrauma>><<trauma -2>>
+    <<elseif $richard.includes($program)>>
+        <<switch $program>>
+            <<case $richard[0]>>
+               90年代风靡的情歌，真是经典永流传。<<lstress>><<stress -3>>
+            <<case $richard[1]>>
+               一首来自上个世纪的爵士乐，好像是电影《闪灵》的插曲，伊甸会不会喜欢恐怖片呢？<<lstress>><<stress -3>>
+            <<case $richard[2]>>
+               这首歌讲了一个暴力，野蛮，充满控制欲和占有欲的人，用尽手段人爱人留在自己身边，令人印象深刻不是吗？<<lstress>><<stress -3>>
+            <<case $richard[3]>>
+               电影《雨中曲》的主题曲，在雨中起舞吧！<<lstress>><<stress -3>>
+        <</switch>>
+    <<elseif $xiatiya.includes($program)>>
+        一首幽默的人声爵士乐曲缓缓。亲爱的，我窝在你的被窝里感到安全。<br>
+        我感到高兴，我感到喜悦，因为我知道我在这么一个洞。洞里躺着一条鳄鱼人，如果我求他，他会让我在泥水中，阳光下躺在他的身边。<br><br>
+        有时我们去强烈明亮的绿色天地，有时我们躲在树根和彼此怀抱中，可是我现在知道，世上有安宁有幸福。<br>
+        说你爱我吧，我求你，我并非没有耐心，只是急切的渴望着而已。
+    <<elseif $tama.includes($program)>>
+        每一个音符都像是热饮在手中散发着温热，令人感到心灵的平静和安宁。
+    <</if>>
+    
+    <br><br>
+    <<edenicon "radio">><<link [[继续听 (0:10)|Eden Radio]]>><<pass 10>><</link>><br>
+    <<getouticon>><<link [[停止听音乐|Cabin House Actions]]>><</link>>

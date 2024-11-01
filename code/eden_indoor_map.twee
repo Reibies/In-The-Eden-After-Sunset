@@ -1,0 +1,639 @@
+:: Eden Indoor Map [widget]
+
+<<widget "Eden_Indoor_Map_Actions">>
+	<script>
+		var eden_night_opacity_night = (1-((1230 - (Time.hour*60+Time.minute))/90));
+		var eden_night_opacity_morning = ((480-(Time.hour*60+Time.minute))/120);
+		function edenmapMove(moveTo) {
+			const currentPassage = V.passage;
+			const destinationTable = [];
+			for (let i = 1; i < V.link_table.length; i++) {
+				const temp = V.link_table[i].split("|")[1];
+				if (temp) {
+					destinationTable.push(temp.split("]]")[0]);
+				}
+			}
+			const available = V.edenmap.available;
+			window.ironmanFlag = true;
+			Wikifier.wikifyEval("<<pass 0>>");
+			delete window.ironmanFlag;
+			SugarCube.Engine.play(moveTo);
+            switch(moveTo){
+                case "Eden Soap":
+                    V.daily.eden.soap = 1;
+                    Wikifier.wikifyEval("<<pass 30>>");
+                    break;
+                case "Eden Salve":
+                    V.daily.eden.salve = 1;
+                    Wikifier.wikifyEval("<<pass 30>>");
+                    break;
+                case "Eden Sweep":
+                    V.daily.eden.sweep = 1;
+                    Wikifier.wikifyEval("<<pass 30>>");
+                    break;
+                case "Eden Stock":
+                    V.daily.eden.supplies = 1;
+                    Wikifier.wikifyEval("<<pass 30>>");
+                    break;
+                case "Eden Fix":
+                    V.daily.eden.sew = 1;
+                    Wikifier.wikifyEval("<<pass 30>>");
+                    break;
+                case "Eden Table":
+                    Wikifier.wikifyEval("<<pass 15>>");
+                    break;
+                case "Eden Radio":
+                    Wikifier.wikifyEval("<<pass 10>>");
+                    break;
+            };
+		}
+		window.edenmapMove = edenmapMove;
+
+	</script>
+	<<if $avaliableMapsVersion is 2>>
+		<<set _edenmap to clone($edenmap)>>
+	<</if>>
+	<<set $edenmap to {
+		"hideLinks": false,
+		"available": {
+			"Eden Cabin": ["Eden Fix","Eden Sweep","Eden Salve","Eden Radio","Eden Soap","Eden Stock","Eden Cuddle","Eden Dance","Eden Massage","Eden Clearing","Eden Mirror","Eden Wardrobe","Eden Cabin Bed","Cabin Eden Actions"],
+            "Eden Bath Wash": [],
+            "Eden Bath Wash No": [],
+            "Eden Bath 2": [],
+            "Eden Bath": [],
+            "Eden Breakfast 2": [],
+            "Eden Breakfast": [],
+            "Eden Christmas Meal 2": [],
+            "Eden Dinner": [],
+            "Eden Read": [],
+            "Eden Read Tease": [],
+            "Eden Table": [],
+            "Eden Cabin Bed": [],
+            "Cabin Sleep": [],
+            "Eden Mirror": [],
+            "Eden Caged Intro": [],
+            "Eden Caged": [],
+            "Eden Caged Caught": [],
+            "Eden Caged Evening": [],
+            "Eden Sleep Push": [],
+            "Cabin Eden Actions": [],
+            "Eden Cuddle": [],
+            "Eden Cuddle Talk": [],
+            "Eden Cuddle Trauma Talk": [],
+            "Eden Caged Breakfast": [],
+            "Eden Caged Escape": [],
+            "Eden Caged Freedom": [],
+            "Eden Dance":[],
+            'Eden Wounds':[],
+            'Eden Wounds Insist':[],
+            'Eden Wounds Finish':[],
+            "Eden Cuddle Trauma Honest":[],
+            "Eden Cuddle Trauma Honest 2":[],
+            "Eden Cuddle Trauma Honest 3":[],
+		},
+		"edenarrayList": ["Eden Clearing","Eden Mirror","Eden Wardrobe","Eden Cabin Bed"]
+	}>>
+
+   
+	<<set $availableMapsVersion to 3>>
+	<<if $availableMapsVersion isnot 3>>
+		<<Eden_Indoor_Map_Actions>>
+	<</if>>
+ 	<<unset $avaliableMapsVersion>>
+<</widget>>
+
+<<widget "Eden_Indoor_Map">>
+    <<set $bath_passages to ["Eden Bath 2","Eden Bath","Eden Bath Wash No","Eden Bath Wash","Cabin Bath"]>>
+    <<set $dinner_passages to ["Eden Dinner","Eden Christmas Meal 2"]>>
+    <<set $breakfast_passages to ["Eden Breakfast","Eden Breakfast 2"]>>
+    <<set $cage_passages to ["Eden Caged Intro","Eden Caged","Eden Caged Caught","Eden Caged Evening","Eden Caged Breakfast","Eden Caged Escape","Eden Caged Freedom"]>>
+    <<set $wound_passages to ['Eden Wounds','Eden Wounds Insist','Eden Wounds Finish']>>
+
+	<<if $options.images is 1>>
+		<<set _EdenBoxLocation to [
+            { x:100,y:105}, /*小屋门口*/
+            {x:121,y:9},/*镜子*/
+            {x:154,y:18},/*衣柜*/
+            {x:190,y:30},/*床*/
+		]>>
+
+<<if Time.hour gte 18 and Time.hour lte 23>>
+        <<set $edenmap.edenarrayList.push("Eden Cuddle","Eden Cuddle")>>
+        <<if $edenradiointro is 2>>
+            <<set $edenmap.edenarrayList.push("Eden Dance")>>
+        <</if>>
+        <<if $edenpillow is 2 and !$daily.eden.massage>>
+            <<set $edenmap.edenarrayList.push("Eden Massage")>>
+        <</if>>
+    <<else>>
+        <<if $edenradiointro is 2>>
+            <<set $edenmap.edenarrayList.push("Eden Radio")>>
+        <</if>>
+        <<if $daily.eden.salve isnot 1>>
+            <<set $edenmap.edenarrayList.push("Eden Salve")>>
+        <</if>>
+    <</if>>
+     <<if $daily.eden.soap isnot 1>>
+        <<set $edenmap.edenarrayList.push("Eden Soap")>>
+    <</if>>
+    <<if $daily.eden.sweep isnot 1>>
+        <<set $edenmap.edenarrayList.push("Eden Sweep")>>
+    <</if>>
+    <<if $daily.eden.supplies isnot 1>>
+        <<set $edenmap.edenarrayList.push("Eden Stock")>>
+    <</if>>
+    <<if $daily.eden.sew isnot 1>>
+        <<set $edenmap.edenarrayList.push("Eden Fix")>>
+    <</if>>
+    <<if !(Time.hour lte 18 and $daily.eden.dinner is 1 and C.npc.Eden.love gte 100) || !($breakfast_passages.includes($passage) || $dinner_passages.includes($passage) || $bath_passages.includes($passage))>>
+        <<set $edenmap.edenarrayList.push("Eden Table")>>
+    <</if>>
+
+        <<if Time.hour gte 18 and Time.hour lte 23>>
+            <<set _EdenBoxLocation.push({x:47,y:54},/*依偎*/{x:67,y:54},/*依偎*/)>>
+            <<if $edenradiointro is 2>>
+                <<set _EdenBoxLocation.push({x:132,y:23},/*跳舞*/)>>
+            <</if>>
+            <<if $edenpillow is 2 and !$daily.eden.massage>>
+                <<set _EdenBoxLocation.push({x:58,y:27},/*按摩*/)>>
+            <</if>>
+        <<else>>
+            <<if $edenradiointro is 2>>
+                <<set _EdenBoxLocation.push({x:132,y:23},/*收音机*/)>>
+            <</if>>
+            
+            <<if $daily.eden.salve isnot 1>>
+                <<set _EdenBoxLocation.push({x:58,y:27},/*药膏*/)>>
+            <</if>>
+
+        <</if>>
+        <<if $daily.eden.soap isnot 1>>
+            <<set _EdenBoxLocation.push({x:58,y:5},/*肥皂*/)>>
+        <</if>>
+        <<if $daily.eden.sweep isnot 1>>
+                <<set _EdenBoxLocation.push({x:106, y:20},/*扫地*/)>>
+            <</if>>
+        <<if $daily.eden.supplies isnot 1>>
+                <<set _EdenBoxLocation.push({x:201, y:62},/*物资*/)>>
+            <</if>>
+            
+            <<if $daily.eden.sew isnot 1>>
+                <<set _EdenBoxLocation.push({x: 165, y: 0},/*修衣服*/)>>
+            <</if>>
+            <<if !(Time.hour lte 18 and $daily.eden.dinner is 1 and C.npc.Eden.love gte 100) || !($breakfast_passages.includes($passage) || $dinner_passages.includes($passage) || $bath_passages.includes($passage))>>
+        <<set _EdenBoxLocation.push({x:107, y:75},/*休息*/)>>
+    <</if>>
+
+		/*This version of sugarcube doesn't perform any processing inside of SVG elements, so we need to perform those actions ourselves inside a custom macro */
+		<div class="divedenmap">
+		<<svg 260 130>>
+			<image x="2" href="img/misc/indoor/main.png"/>
+            <<if $edenradiointro is 2>>
+                    <img x="2" href="img/misc/indoor/radio.png" class="edenmapitem"/>
+            <</if>>
+            <<if $edenpillow is 2>>
+                <image x="2" href="img/misc/indoor/carpet.png" class="edenmapcarpet"/>
+                <<if $edenloveseat is 9>>
+                    <image x="2" href="img/misc/indoor/cushion.png" class="edenmapitem"/>
+                <</if>>
+            <</if>>
+            <<if $edencoat is 2>>
+                <image x="2" href="img/misc/indoor/hatstand.png" class="edenmapitem"/>
+                <<if $edencoatjacket is 1 and !(Time.hour gte 11 and Time.hour lte 14 and $daily.eden.hunting is 1)>>
+                    <image x="2" href="img/misc/indoor/coat.png" class="edenmapfurniture"/>
+                <</if>>
+                <<if $edenscarf is 1>>
+                    <image x="2" href="img/misc/indoor/scarf.png" class="edenmapfurniture"/>
+                <</if>>
+            <</if>>
+            <image x="2" href="img/misc/indoor/wall.png" class="edenmapfurniture"/>
+            <image x="2" href="img/misc/indoor/table.png" class="edenmapitem"/>
+            <<if Time.hour is 17 || $bath_passages.includes($passage)>>
+                <image x="2" href="img/misc/indoor/tub_full.png" class="edenmapfurniture"/>
+            <<else>>
+                <image x="2" href="img/misc/indoor/tub.png" class="edenmapfurniture"/>
+            <</if>>
+            <<if $daily.eden.supplies isnot 1>>
+                <image x="2" href="img/misc/indoor/supplies.png" class="edenmapitem"/>
+            <</if>>
+            <<if $daily.eden.sew isnot 1 or $edencushions is 1 or $edendesign lt 9 or (Time.season is "winter" and !$edenscarf and $edencoat is 2)>>
+                <image x="2" href="img/misc/indoor/sew.png" class="edenmapitem"/>
+            <</if>>
+            <<if Time.hour gte 18 and Time.hour lte 19 and Time.monthDay is 25 and $christmas_gift_eden_given is 1>>
+                <image x="2" href="img/misc/indoor/food/xmas.png" class="edenmapfurniture"/>
+            <<elseif Time.hour gte 18 and Time.hour lte 19 and C.npc.Eden.love gte 100>>
+                <<switch $daily.eden_dinner>>
+                    <<case 0>>
+                        <image x="2" href="img/misc/indoor/food/dailyfood1.png" class="edenmapfurniture"/>
+                    <<case 1>>
+                        <image x="2" href="img/misc/indoor/food/dailyfood2.png" class="edenmapfurniture"/>
+                    <<case 2>>
+                        <image x="2" href="img/misc/indoor/food/dailyfood3.png" class="edenmapfurniture"/>
+                    <<case 3>>
+                        <image x="2" href="img/misc/indoor/food/dailyfood4.png" class="edenmapfurniture"/>
+                    <<case 4>>
+                        <image x="2" href="img/misc/indoor/food/dailyfood5.png" class="edenmapfurniture"/>
+                <</switch>>
+            <<elseif Time.hour gte 7 && Time.hour lte 8>>
+                <<switch $daily.eden_breakfast>>
+                    <<case 0>>
+                        <image x="2" href="img/misc/indoor/food/breakfast.png" class="edenmapfurniture"/>
+                    <<case 1>>
+                        <image x="2" @href="'img/misc/indoor/food/special_breakfast'+ $daily.eden_random_breakfast +'.png'" class="edenmapfurniture"/>
+                <</switch>>
+            <</if>>
+			<<if Time.hour gte 19 || Time.hour lt 8 >>
+				<image class="edenmapnight" x="2" href="img/misc/indoor/indoor_night.png"/>
+				<script>
+					var edenmapnight = document.getElementsByClassName("edenmapnight");
+					
+					for(var i = 0 ; i < edenmapnight.length ; i++){
+						if((Time.hour*60+Time.minute) < 1230 && (Time.hour*60+Time.minute) >= 1140)
+						{
+							edenmapnight[i].style.setProperty("--eden_night_opacity",eden_night_opacity_night) 
+						}
+						else if((Time.hour*60+Time.minute) < 480 && (Time.hour*60+Time.minute) >= 360)
+						{
+							edenmapnight[i].style.setProperty("--eden_night_opacity",eden_night_opacity_morning) 
+						}
+						else
+						{
+							edenmapnight[i].style.setProperty("--eden_night_opacity",1)
+						}
+					}
+				</script>
+				
+			<</if>>
+            <<if Time.hour gte 17 || Time.hour lt 7 >>
+                    <image class="edenmapnight_light_fireplace" x="2" href="img/misc/indoor/indoor_night_fireplace.gif"/>
+					<image class="edenmapnight_light" x="2" href="img/misc/indoor/indoor_night_fire.gif"/>
+					<image class="edenmapnight_light_blur" x="2" href="img/misc/indoor/indoor_night_light.png"/>
+				<</if>>
+			<<for _i to 0; _i lt $edenmap.edenarrayList.length; _i++>>
+				<<set _canMoveTo = $debug || $edenmap.available[$passage].includes($edenmap.edenarrayList[_i])>>
+				<<set _showMarker = $debug || ($options.mapMarkers && (_canMoveTo || $passage is $edenmap.edenarrayList[_i]))>>
+
+				<a class="mapMove"
+						@onclick="'edenmapMove(V.edenmap.edenarrayList[' + _i + ']);'"
+						@alt="$edenmap.edenarrayList[_i] + (_canMoveTo ? ' (0:00)' : '')"
+						@title="$edenmap.edenarrayList[_i] + (_canMoveTo ? ' (0:00)' : '')">
+
+					<rect @x="_EdenBoxLocation[_i].x"
+							@y="_EdenBoxLocation[_i].y"
+							height="20"
+							width="24"
+							@style="'stroke:cyan;fill-opacity:0;stroke-opacity:' + (_showMarker ? '0.6' : '0') + ';'">
+					</rect>
+				</a>
+			<</for>>
+		<</svg>>
+		</div>
+	<</if>>
+
+    <!--js部分，前面的史山也太大坨了吧！我好想优化它。。。-->
+    <<if $options.images is 1 and $options.mapLegacy isnot true>>
+	<script>
+
+        window.modImgLoaderHooker.addDynamicImageTagReplacePassage(V.passage);
+        var eden_svg = document.getElementsByTagName("svg");
+	    eden_svg[0].style.position = "absolute";
+
+        var night_img = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACACAYAAADktbcKAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACNklEQVR4nO3dQUoDQRBAUSNe3rXX8I5x5UYQFDJdRf576yx6oPgZqIa5fX6831+ApLfpAzyXny29Pfj38FiLA/AMLyb/fYZneGb+bj74r9MHAOYsDYB/Qgrm53xpAIATBADCBADCBADClgZgfj0C15uf86UBAE4QAAhbGoD5/Shcb37OlwYAOEEAIEwAIEwAIGxpAOb3o3C9+TlfGgDgBAGAsKUBmN+PwvXm53xpAIATBADCBADCBADClgZgfj8K15uf86UBAE4QAAhbGoD5/Shcb37OlwYAOEEAIEwAIEwAIGxpAOb3o3C9+TlfGgDgBAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAsKUBuE8fABKWBgA4QQAgTAAgTAAgbGkAbtMHgISlAQBOEAAIWxoA9wDghKUBAE4QAAgTAAgTAAhbGgD3AOCEpQEAThAACFsaAPcA4ISlAQBOEAAIEwAIEwAIWxoA9wDghKUBAE4QAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAh7mz7A776/EHwfPQU83p6vX38BDuQUzDceDEEAAAAASUVORK5CYII=";
+
+		var eden_div = document.getElementsByClassName("divedenmap");
+		var lil_pc_div_img = document.createElement("div");
+		lil_pc_div_img.setAttribute("class","pc_div");
+        var lil_eden_div_img = document.createElement("div");
+        var lil_eden = document.createElement("img");
+        lil_eden_div_img.setAttribute("class","eden_div");
+        
+        /*定义pc的位置和方向（动画）贴图，在添加事件动画前，要检查载入js和available里是否加入了这个passage！！！！*/
+        var lil_pc_x,lil_pc_y,lil_eden_x = 178,lil_eden_y = 42;
+        var pc_direction = "front";
+        var eden_direction = "default";
+        function randomPCdirection(){
+            switch(getRandom(1,4)){
+			    case 1:
+			    	pc_direction = "front";
+			    	break;
+			    case 2:
+			    	pc_direction = "left";
+			    	break;
+			    case 3:
+			    	pc_direction = "right";
+			    	break;
+			    case 4:
+			    	pc_direction = "back";
+			    	break;
+                default:
+                    pc_direction = "front";
+		    };
+        };
+        switch (getRandom(1, 2)){
+            case 1:
+                lil_pc_x = getRandom(98, 158);
+	            lil_pc_y = getRandom(23, 45);
+                break;
+            case 2:
+                lil_pc_x = getRandom(96, 183);
+lil_pc_y = getRandom(97, 83);
+break;
+default:
+    lil_pc_x = 103;
+    lil_pc_y = 93;
+};
+
+var pc_width = 26;
+
+if (V.bath_passages.includes(V.passage)) {
+    setPCandEdenPosition("bath", 44, 79, "bath_withpc", 63, 77);
+    pc_width = 25;
+}
+else if (V.passage == "Eden Dance"){
+    setPCandEdenPosition("dance",127,41,"dance",110,35);
+    pc_width = 35;
+    lil_eden_div_img.style.width = "33px";
+    lil_pc_div_img.style.width = "35px";
+}
+else if(V.cage_passages.includes(V.passage)){
+
+    if((V.passage == "Eden Caged Evening" && V.phase !== 1)||(Time.hour <= 6 || Time.hour >= 22)){
+        setPCandEdenPosition(null,null,null,"sleep", 182, 13);
+        apply_effect("sleep_effect", "img/misc/lil_eden/zzz.gif", 205, -2, eden_div[0]);
+    }
+    else if((Time.hour <= 8 && V.passage == "Eden Caged")||(V.edenCaged.days >= 1 && Time.hour > 16 && Time.hour < 18)||(V.passage == "Eden Caged Evening" && V.phase == 1) || ((C.npc.Eden.trust >= 100 || V.edenCaged.days >= 5)&&Time.hour <= 8 && Time.hour >= 6)){
+        setPCandEdenPosition("left", null,null,"squat", 120, 40);
+    }
+    else if(V.passage == "Eden Caged Escape" || V.passage == "Eden Caged Freedom"){
+        setPCandEdenPosition("front", null,null,null, null, null);
+    }
+    else if(Time.hour == 18){
+        setPCandEdenPosition(null,null,null,"bath", 63, 77);
+    }
+    else if(Time.hour >= 19){
+        setPCandEdenPosition(null, null, null,"read",61,23);
+    }
+    
+}
+else if(V.wound_passages.includes(V.passage)){
+
+    switch(V.passage){
+        case "Eden Wounds":
+            setPCandEdenPosition("right",91,63,"wound_sit",105,53);
+            break;
+        case "Eden Wounds Insist":
+            setPCandEdenPosition("right", 91,63,"wound_sit_smile",105,53);
+            break;
+        case "Eden Wounds Finish":
+            setPCandEdenPosition("right",91,63,"wound_bandage",105,53);
+            break;
+    };
+}
+else if(V.passage == "Eden Cuddle"){
+    if(V.edencushions == 2 && V.edenloveseat == 9){
+    setPCandEdenPosition("cushion", 52, 45, "cushion", 69, 48);
+    }
+    else if((((V.rng >= 11 && V.syndromeeden == 1 && C.npc.Eden.love >= 100 && C.npc.Eden.dom >= 75 && Weather.dayState == "night" && (Weather.precipitation == "rain" || Weather.name == "thunderStorm") && V.weekly.edenStory) || (Time.days % 2 == 0)) && (Time.hour >= 17))){
+        setPCandEdenPosition("read", 45, 25,"gun", 61, 23);
+    }
+    else{
+        setPCandEdenPosition("read", 45, 25,"read", 61, 23);
+    }
+} else if(V.passage == "Eden Cuddle Talk"){
+    
+    var talk_random_number = getRandom(0,100);
+    var talk_bubble;
+    if (talk_random_number <= 30){
+        talk_bubble = "talk0";
+    }
+    else if(talk_random_number <= 60){
+        talk_bubble = "talk1";
+    }
+    else if(talk_random_number <= 90){
+        talk_bubble = "talk2";
+    }
+    else{
+        talk_bubble = "talk3";
+    }
+    if(V.edencushions == 2 && V.edenloveseat == 9){
+    setPCandEdenPosition("cushion", 52, 45, "cushion", 69, 48);
+    apply_effect("sleep_effect", "img/misc/lil_pc/"+ talk_bubble +".gif", 26, 35, eden_div[0]);
+    }
+    else if((((V.rng >= 11 && V.syndromeeden == 1 && C.npc.Eden.love >= 100 && C.npc.Eden.dom >= 75 && Weather.dayState == "night" && (Weather.precipitation == "rain" || Weather.name == "thunderStorm") && V.weekly.edenStory) || (Time.days % 2 == 0)) && (Time.hour >= 17))){
+        setPCandEdenPosition("read", 45, 25,"gun", 61, 23);
+        apply_effect("sleep_effect", "img/misc/lil_pc/"+ talk_bubble +".gif", 26, 15, eden_div[0]);
+    }
+    else{
+        setPCandEdenPosition("read", 45, 25,"read", 61, 23);
+        apply_effect("sleep_effect", "img/misc/lil_pc/"+ talk_bubble +".gif", 26, 15, eden_div[0]);
+    }
+}
+else if(V.passage == "Eden Cuddle Trauma Talk" || V.passage == 'Eden Cuddle Trauma Honest' || V.passage == 'Eden Cuddle Trauma Honest 2' || V.passage == "Eden Cuddle Trauma Honest 3"){
+    if(V.edencushions == 2 && V.edenloveseat == 9){
+    setPCandEdenPosition("cushion", 52, 45, "cushion", 69, 48);
+    apply_effect("sleep_effect", "img/misc/lil_pc/trauma.gif", 26, 35, eden_div[0]);
+    }
+    else if((((V.rng >= 11 && V.syndromeeden == 1 && C.npc.Eden.love >= 100 && C.npc.Eden.dom >= 75 && Weather.dayState == "night" && (Weather.precipitation == "rain" || Weather.name == "thunderStorm") && V.weekly.edenStory) || (Time.days % 2 == 0)) && (Time.hour >= 17))){
+        setPCandEdenPosition("read", 45, 25,"gun", 61, 23);
+        apply_effect("sleep_effect", "img/misc/lil_pc/trauma.gif", 26, 15, eden_div[0]);
+    }
+    else{
+        setPCandEdenPosition("read", 45, 25,"read", 61, 23);
+        apply_effect("sleep_effect", "img/misc/lil_pc/trauma.gif", 26, 15, eden_div[0]);
+    }
+}
+else if (V.worn.neck.collared !== 1 && V.edenaskcollar !== 1 && Time.hour >= 0 && Time.hour <= 6 && !V.possessed) {
+    setPCandEdenPosition("right", 148, 28, "morning", 182, 13);
+    apply_effect("sleep_effect", "img/misc/lil_eden/ask_effect.gif", 157, 3, eden_div[0]);
+} else if (Time.hour == 17 && V.daily.eden.bath == 1) {
+    setPCandEdenPosition(null, null, null, "bath", 63, 77);
+} else if (V.dinner_passages.includes(V.passage) && V.phase !== 2) {
+    setPCandEdenPosition("sit_right", 106, 60, "sit", 173, 66);
+} else if (V.daily.eden.breakfastLust == 1 && V.passage == "Eden Breakfast" && C.npc.Eden.lust >= 26 && V.phase <= 2 && V.daily.eden_breakfast_lust !== 1) {
+    setPCandEdenPosition("back", 53, 28, "breakfast_lust", 65, 21);
+} else if ((V.daily.eden_breakfast_lust == 1 || !V.daily.eden.breakfastLust) && (V.daily.eden_dinner === undefined) && ((Time.hour <= 18 && V.daily.eden.dinner == 1 && C.npc.Eden.love >= 100) || (Time.hour <= 18 && Time.monthDay == 25 && V.christmas_gift_eden_given == 1 && V.eden_christmas_dinner == 1) || (V.breakfast_passages.includes(V.passage) && V.daily.eden_breakfast !== 2))) {
+    setPCandEdenPosition(null, null, null, "sit", 173, 66);
+} else if ((((V.rng >= 11 && V.syndromeeden == 1 && C.npc.Eden.love >= 100 && C.npc.Eden.dom >= 75 && Weather.dayState == "night" && (Weather.precipitation == "rain" || Weather.name == "thunderStorm") && V.weekly.edenStory) || (Time.days % 2 == 0)) && (Time.hour >= 17))) {
+    setPCandEdenPosition(null, null, null, "gun", 61, 23);
+    if(V.passage == "Cabin Eden Actions"){
+        setPCandEdenPosition("sit_right", 45, 25, null, null, null);
+    }
+} else if (V.passage == "Eden Read" || V.passage == "Eden Story") {
+    setPCandEdenPosition("read", 47, 26, "read", 61, 23);
+} else if (V.passage == "Eden Read Tease") {
+    setPCandEdenPosition("read", 47, 26, "read_tease", 61, 23);
+} else if ((Time.days % 2 !== 0) && (Time.hour >= 17)) {
+    setPCandEdenPosition(null, null, null, "read", 61, 23);
+    if(V.passage == "Cabin Eden Actions"){
+        setPCandEdenPosition("sit_right", 45, 25, null, null, null);
+    }
+} else if (V.passage == "Eden Cabin Bed" && V.bedGuest == "Eden") {
+    setPCandEdenPosition("bed_witheden", 197, 14, "sleep_withpc", 182, 13);
+    apply_effect("sleep_effect", "img/misc/lil_eden/zzz.gif", 205, -2, eden_div[0]);
+} else if (V.passage == "Cabin Sleep" && T.sleepinterrupt) {
+    setPCandEdenPosition("bed_witheden", 197, 14, "sleep_lust", 182, 13);
+} else if (V.passage == "Eden Sleep Push" && !(C.npc.Eden.love - (C.npc.Eden.lust * 2) >= 1)) {
+    setPCandEdenPosition("sleep_lust_push", 196, 14, "sleep_lust_push", 182, 13);
+} else if (V.passage == "Eden Sleep Push") {
+    setPCandEdenPosition("bed_witheden", 197, 14, "sleep_withpc", 182, 13);
+    apply_effect("sleep_effect", "img/misc/lil_eden/zzz.gif", 205, -2, eden_div[0]);
+} else if ((V.passage == "Cabin Sleep" && ((Time.hour <= 8 && V.daily.eden_sleep == 1) && (V.daily.eden.breakfast == undefined || V.daily.eden.breakfast == undefined))) && V.edenbed == 1) {
+    setPCandEdenPosition("sleep_witheden", 197, 14, "sleep_withpc", 182, 13);
+    apply_effect("sleep_effect", "img/misc/lil_eden/zzz.gif", 205, -2, eden_div[0]);
+} else if (V.edenbed == 1 && Time.hour <= 2 && V.daily.eden_sleep !== 1) {
+    setPCandEdenPosition("right", 148, 28, "morning", 182, 13);
+} else if ((V.daily.eden_sleep == 1 || V.edenbed == 1) && Time.hour <= 6) {
+    setPCandEdenPosition(null, null, null, "sleep", 182, 13);
+    apply_effect("sleep_effect", "img/misc/lil_eden/zzz.gif", 205, -2, eden_div[0]);
+} else if (Time.hour <= 8 && V.daily.eden_breakfast == undefined && Time.hour >= 7 && V.daily.eden.breakfast !== undefined && V.daily.eden_random_breakfast == undefined) {
+    setPCandEdenPosition(null, null, null, "morning", 182, 13);
+} else if (V.passage == "Cabin Eden Actions" && Time.hour <= 16) {
+    setPCandEdenPosition("right", 165, 50, null, null, null);
+} else {
+    randomPCdirection();
+}
+
+if (V.passage == "Eden Cabin Bed" && V.bedGuest !== "Eden") {
+    setPCandEdenPosition("bed", 187, 13, null, null, null);
+} else if (V.passage == "Cabin Sleep" && eden_direction !== "sleep_withpc" && eden_direction !== "morning" && eden_direction !== "sleep_lust") {
+    setPCandEdenPosition("sleep", 187, 13, null, null, null);
+    apply_effect("sleep_effect", "img/misc/lil_eden/zzz.gif", 205, -2, eden_div[0]);
+} else if (V.passage == "Eden Table") {
+    setPCandEdenPosition("sit_right", 106, 60, null, null, null);
+} else if (V.passage == "Eden Mirror") {
+    setPCandEdenPosition("back", 120, 23, null, null, null);
+/*牢内！*/
+} else if (V.cage_passages.includes(V.passage)) {
+    var cage_div = document.createElement("div");
+    cage_div.style.position = "absolute";
+    var cage_img = document.createElement("img");
+    if((eden_direction == "squat" && !(V.passage == "Eden Caged Evening" && V.phase == 1))||V.passage == "Eden Caged Escape"||V.passage == "Eden Caged Freedom"){
+        var cage_src = "img/misc/cage_open.png";
+        }
+    else{
+        var cage_src = "img/misc/cage.png";
+    }
+    cage_img.src = cage_src;
+    cage_div.setAttribute("class", "sleep_effect");
+    cage_div.appendChild(cage_img);
+    cage_div.style.zIndex = "3";
+    cage_div.style.transform = "translateX(140px)translateY(24px)";
+    var cage_night = document.createElement("img");
+    cage_night.src = night_img;
+    cage_night.setAttribute("class", "pc_night");
+    window.modSC2DataManager.getHtmlTagSrcHook().requestImageBySrc(cage_src).then(base64Img => {
+        applyNightMask(cage_night, base64Img, cage_div);
+    });
+    eden_div[0].appendChild(cage_div);
+    setPCandEdenPosition(null, 145, 38, null, null, null);
+}
+
+        lil_eden.setAttribute("src","img/misc/lil_eden/" + eden_direction + "_" + V.NPCName[6].pronoun + ".gif");
+        lil_eden.setAttribute("class","pc_img_body");
+        lil_eden_div_img.appendChild(lil_eden);
+		lil_pc_div_img.style.setProperty("--lil_pc_x",lil_pc_x);
+		lil_pc_div_img.style.setProperty("--lil_pc_y",lil_pc_y);
+        lil_eden_div_img.style.setProperty("--lil_eden_x",lil_eden_x);
+        lil_eden_div_img.style.setProperty("--lil_eden_y",lil_eden_y);
+
+		/*遍历颜色变量 */
+
+		var lil_pc_hair_color = getColor(setup.colours.hair, V.haircolour);
+		if(V.makeup.eyelenses.right != 0){
+			var lil_pc_righteye_color = getSpecialColor(tinycolor.names, V.makeup.eyelenses.right);
+		}
+		else{
+			var lil_pc_righteye_color = getColor(setup.colours.eyes, V.rightEyeColour);
+		}
+		if(V.makeup.eyelenses.left != 0){
+			var lil_pc_lefteye_color = getSpecialColor(tinycolor.names, V.makeup.eyelenses.left);
+		}
+		else{
+			var lil_pc_lefteye_color = getColor(setup.colours.eyes, V.leftEyeColour);
+		}
+
+var lil_pc_upper_color = resolveClothColor(V.worn.upper);
+var lil_pc_lower_color = resolveClothColor(V.worn.lower);
+var lil_pc_feet_color = resolveClothColor(V.worn.feet);
+
+        appendPC();
+        if ((((Time.hour <= 8) || (Time.hour >= 17)) && V.passage !== "Eden Caged Breakfast") || V.wound_passages.includes(V.passage)){
+            eden_div[0].appendChild(lil_eden_div_img);
+            lil_eden_div_img.addEventListener("click",function(){
+                V.NPCName[6].lust ++;
+            });
+            
+            if (V.passage == "Eden Cabin" && Time.hour >= 17){
+                lil_eden_div_img.style.cursor = "pointer";
+                lil_eden_div_img.onclick=function(){
+                    edenmapMove("Cabin Eden Actions");
+                };
+            }
+            else if(V.daily.eden_sleep == 1 && V.passage == "Eden Cabin" && Time.hour <= 6 && Time.hour >= 0){
+                lil_eden_div_img.style.cursor = "pointer";
+                lil_eden_div_img.onclick=function(){
+                    var random_eden_bed = getRandom(1,100);
+                    if (random_eden_bed <= 10){
+                        edenmapMove("Eden Cabin Bed");
+                    }
+                    else if (random_eden_bed >= 90) {
+                        CustomPopup.set("伊甸睡觉踢被子，一脚把pc踹下了床！<span class = 'red' style = 'text-shadow : 0 0 10px red;'>+ + 疼痛</span>");
+                        CustomPopup.setSize("400px", "100px");
+                        Wikifier.wikifyEval("<<pain 4>>");
+                        var PopupContent = document.querySelector("#PopupContent");
+                        PopupContent.style.backgroundColor = "rgba(102, 100, 119, 0.22)";
+                        PopupContent.style.textAlign = "center";
+                        PopupContent.style.lineHeight = "100px";
+                        PopupContent.style.minHeight = "100px";
+                        PopupContent.style.paddingTop = "";
+                        PopupContent.style.paddingleft = "";
+                        };
+                };
+            }
+            
+        }
+        var pc_all_imgs = appendPC();
+		for(var i =0;i<pc_all_imgs.length;i++){
+		    lil_pc_div_img.appendChild(pc_all_imgs[i]);
+		};
+        
+
+        /*夜晚人物同步地图变暗 */
+
+        var mask_url = "img/misc/lil_pc/" + pc_direction + "/mask.gif";
+		var eden_mask_url = "img/misc/lil_eden/" + eden_direction + "_" + V.NPCName[6].pronoun + ".gif";
+
+        createNight(mask_url,lil_pc_div_img);
+        createNight(eden_mask_url,lil_eden_div_img);
+
+        if(V.passage == "Eden Mirror"){
+            pc_direction = "front";
+            var pc_mirror = document.createElement("div");
+            var pc_mirror_all_imgs = appendPC();
+            window.modSC2DataManager.getHtmlTagSrcHook().requestImageBySrc("img/misc/lil_pc/mirror.png").then(base64Img => {
+                var pc_mirror_url = "url(\"" + base64Img + "\")";
+                pc_mirror.style.maskImage = pc_mirror_url;
+                pc_mirror.style.webkitMaskImage = pc_mirror_url;
+            });
+            for(var i = 0;i<pc_mirror_all_imgs.length;i++){
+                pc_mirror.appendChild(pc_mirror_all_imgs[i]);
+                }
+            pc_mirror.style.mixBlendMode = "overlay";
+            pc_mirror.style.width = "26px";
+            pc_mirror.style.height = "28px";
+            pc_mirror.style.overflow = "hidden";
+            pc_mirror.style.webkitMaskRepeat = "no-repeat";
+            pc_mirror.style.maskRepeat = "no-repeat";
+            pc_mirror.style.maskPosition = "center";
+            pc_mirror.style.webkitMaskPosition = "center";
+            pc_mirror.style.opacity = "0.7";
+            lil_pc_div_img.style.zIndex = "2";
+            pc_mirror.style.transform = "translateY(5px)translateX(120px)";
+            eden_div[0].appendChild(pc_mirror);
+        }
+
+reLoadAllGIFs();
+
+	</script>
+    <</if>>
+<</widget>>

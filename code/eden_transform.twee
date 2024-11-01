@@ -1,0 +1,397 @@
+<!--伊甸和pc相比，那我还是感觉我们pc牛批！
+
+我去clearingedenactions到底是个啥，为什么导出数据里没有这个widget
+。。。原来这不是个widget
+在这个文件上方插三根香，保佑我不要出bug
+代码写得像史我自己都绷不住了
+
+\   |   /
+ \  |  /
+  \ | /
+  -->
+
+:: Eden Wolf Pet Head Eden
+
+    <!--伊甸狼转化剧情，伊甸要求-->
+    <<npc Eden>><<person1>>
+    伊甸看向你的
+    <<if $transformationParts.wolf.ears isnot 'hidden'>>
+        <<if $wolfgirl gte 4>>
+            狼
+        <<elseif $fox gte 4>>
+            狐
+        <<elseif $cat gte 4>>
+            猫
+        <</if>>
+    <</if>>
+    耳，看着你的耳朵因为一阵风吹过而微微颤动。“好<<girl>>，过来。”<<he>>向你伸出手。
+    <<link [[主动凑上前|Eden Wolf Pet Head Eden Accept]]>><<npcincr Eden love 5>><<npcincr Eden dom 2>><<gglove>><<gdom>><</link>><br>
+    <<if $speech_attitude is "bratty" >>
+    <<link [[拒绝|Eden Wolf Pet Head Eden Refuse]]>><</link>>
+    <</if>>
+
+:: Eden Wolf Pet Head Eden Accept
+
+    <!--伊甸要求摸头同意-->
+    <<if $speech_attitude is "bratty" >>
+        你抬眼看了伊甸一眼，偷偷翻了个白眼，但还是不情不愿地靠近<<he>>几分距离。你能感受到<<he>>灼热的目光。
+    <<elseif $speech_attitude is "meek" >>
+        你犹豫几分，伊甸一直伸着手等待你靠近。在考虑再三后你选择靠近。
+    <<else>>
+        你咽了一口口水，耳朵微微垂下，乖乖地走了过去。
+    <</if>><br><br>
+    <<link [[继续|Eden Wolf Pet Content]]>><</link>>
+
+:: Eden Wolf Pet Content
+
+    <!--伊甸摸头正文，摸头事件最后链接到这里-->
+
+    “乖<<girl>>。”伊甸满足地看着你，带有厚重指茧和伤疤的手抚过你的头发。<br>
+    然后是耳后，最后摸到耳根并轻轻按压抓挠着。你闭上眼享受着。<<llstress>><<ggarousal>><<stress -10>><<arousal 1800>><br>
+    伊甸看着你一脸陶醉的样子，轻笑一声，又顺了顺你的头发。<br>
+    <<if $transformationParts.wolf.tail isnot "hidden" || $transformationParts.fox.tail isnot "hidden">>
+        <<if $transformationParts.fox.tail isnot "disabled" || $transformationParts.wolf.tail isnot "disabled">>
+        手往下移动直到你的尾巴根处，你被突如急来的快感刺激到。<<ggarousal>><<arousal 2000>><br>
+        <<he>>又顺着你的尾巴轻轻抚摸，
+    <</if>>
+    <</if>>
+    摸了一会之后<<he>>站起身来表示要工作，临走前还不忘拍拍你的头。<<npcincr Eden love 5>><<gglove>><br><br>
+    <<set $daily.eden_pet_head to 1>>
+    <<link [[继续|Clearing Eden Actions]]>><<endevent>><</link>>
+
+:: Eden Wolf Pet Head Eden Refuse
+
+    <!--pc拒绝摸头-->
+    “你想干什么？”你的耳朵耸立，警惕地对<<he>>发出吼叫，后撤半步表示反对。
+    <<if $NPCName[6].love lte 40 && $NPCName[6].dom lte 35>>
+        “……”伊甸叹了口气，但也没有要求你更多。<<he>>再坐了一会便走开工作了。
+        <<set $daily.eden_pet_head to 1>>
+        <<link [[继续|Clearing Eden Actions]]>><</link>>
+    <<else>>
+        “过来。”伊甸挑眉，没等你思考，他便抓着你的牵引绳强迫你靠近，力道大到你摔到了<<he>>脚边。<<ggpain>><<pain +5>>
+        <<link [[继续|Eden Wolf Pet Content]]>><</link>>
+    <</if>>
+    
+:: Eden Wolf Pet Head PC
+
+    <!--伊甸狼转化剧情，pc要求-->
+    <<npc Eden>><<person1>>
+    <<if $transformationParts.wolf.tail isnot "hidden" || $transformationParts.fox.tail isnot "hidden">>
+        <<if $transformationParts.fox.tail isnot "disabled" || $transformationParts.wolf.tail isnot "disabled">>
+        你甩甩尾巴，
+    <</if>><</if>>
+    原地伸了个懒腰后走向伊甸。“嘿，你想摸摸我吗？”<br>
+    还没等伊甸反应过来你便开始蹭<<He>>的
+    <<if $bodysize is 0>>
+        衣服袖子
+    <<elseif $bodysize gte 3>>
+        衣服领口
+    <<else>>
+        胸口
+    <</if>>
+    。<<he>>的衣服上沾上一些你的毛发。<<npcincr Eden lust 10>><<ggglust>>
+    <br>伊甸笑了一声，手摸上你的头。<br><br>
+    <<link [[继续|Eden Wolf Pet Content]]>><</link>>
+
+:: Eden Wolf Pet Head PC Surprise
+
+    <!--偷袭伊甸诡术判定-->
+    <<npc Eden>><<person1>>
+    你心里冒出一个坏点子。伊甸没有注意到你悄无声息的靠近，<<he>>仍然背对着你。
+    <<skulduggerycheck>>
+    <<if $skulduggerysuccess is 1>>
+        由于作为捕食者的经验，你很好的隐藏了自己的声息并一点点靠近伊甸。<br><br>
+        你扑了过去，像是一个树袋熊一样挂在<<he>>身上。<br>
+        “……！嘿！”伊甸明显吓了一跳并回头看向你，意识到是你的小把戏后也笑了几声。“看起来我的小宠物兴致很好？”<br>
+        “我只是想让你摸摸我。”你鼓起嘴
+        <<if $transformationParts.wolf.tail isnot "hidden" || $transformationParts.fox.tail isnot "hidden">>
+        <<if $transformationParts.fox.tail isnot "disabled" || $transformationParts.wolf.tail isnot "disabled">>
+            ，尾巴一甩一甩
+        <</if>><</if>>。<br>
+        伊甸摇摇头并把你放下，随后把你搂在<<he>>怀里抚摸。“看起来是我工作太投入了没有照顾到你的要求，不过……”<br>
+        “你知道你可以用一些……不那么刺激的方式的。”<br>
+            
+    <<else>>
+        你愣住了，伊甸走向你。“又在想什么鬼把戏？”<<he>>挑眉，拍了拍你的肩膀。<br><br>
+        “我只是想让你摸摸我。”<br>
+        “……下次你可以直接开口说。”<<he>>叹气，并轻轻摸你的头。<br>
+      
+    <</if>>
+    <<skulduggeryuse>>
+    <<set $daily.eden_pet_head to 1>>
+    <<link [[继续|Clearing Eden Actions]]]>><</link>>
+
+:: Eden Wolf Game 1
+
+    <<npc Eden>><<person1>>
+    你在小屋空地上。你注意到伊甸正在泉水旁边，水池周围还散落着一些你之前从水里捞上来但并没有扔掉的树枝和落叶。<br>
+    “呃……”你抖抖耳朵，感觉有种不好的预感。你偷偷瞟了伊甸一眼，出乎意料的是<<he>>并没有因为你没有清理干净这些残枝败叶而生气的迹象，反而是从里面挑出一根粗细适中的枝条并反复查看。<br>
+    粗细正好符合你口腔的大小。你有些不解地看着<<he>>。<br>
+    “想要放松一下吗？”<<he>>转身看向你，并晃了晃手里的树枝。<br>
+
+    <<link [[接受|Eden Wolf Game 2]]>><</link>>
+    <<link [[拒绝|Eden Wolf Game Refuse]]>><</link>>
+
+:: Eden Wolf Game 2
+
+   你按耐不住心里的激动，
+   <<if $transformationParts.wolf.tail isnot "hidden" || $transformationParts.fox.tail isnot "hidden">>
+        <<if $transformationParts.fox.tail isnot "disabled" || $transformationParts.wolf.tail isnot "disabled">>
+            尾巴快活地晃着。伊甸看着你尾巴要摇成螺旋桨的模样笑了几声。<br>
+        <<else>>
+            伊甸看着你的模样笑了几声。<br>
+        <</if>>
+    <</if>>
+   “乖狗狗。”<<he>>把手里的树枝伸到你的鼻尖，让你闻闻气味。“当我扔出去的时候，你要给我捡回来，好么？”<br>
+   你不假思索点了点头，耳朵竖起来等候<<he>>的下一步指令和动作。<br><br>
+   “3,2,1，去吧！”伊甸把树枝扔了出去，<<he>>的力气很大，树枝被扔出去很远。在那一刻几乎是本能驱使你窜了出去，像是狩猎中的捕食者用四肢奋力奔跑，眼里只有那根树枝。<br><br>
+
+    <<set $eden_branch_random to random(1,7)>>
+    <<if $eden_branch_random is 7>>
+        树枝飞的太高了！你跟着跟着突然就找不到它的踪影，急的呜呜叫着。<<ggstress>><<stress +5>><br>
+        你又找了一会，只能失落地
+        <<if $transformationParts.wolf.tail isnot "hidden" || $transformationParts.fox.tail isnot "hidden">>
+        <<if $transformationParts.fox.tail isnot "disabled" || $transformationParts.wolf.tail isnot "disabled">>
+            夹着尾巴
+        <</if>>
+        <</if>>
+        回去。<<gggstress>><<stress +7>><br><<set $eden_branch to 0>>
+    <<elseif $eden_branch_random is 6>>
+        那根树枝突然从空中掉了下来！你猝不及防地被砸中，哀嚎着跳开。<<gggpain>><<pain +6>><br>
+        在注意到那是伊甸的树枝后，你还是低头叼起来并返回到伊甸身边。<br><<set $eden_branch to 1>>
+    <<else>>
+        那根树枝掉落在了草地上，你停在它前方，低下头用嘴叼住并返回到伊甸身边。<<set $eden_branch to 1>>
+    <</if>><br><br>
+
+    <<link [[继续|Eden Wolf Game 3]]>><</link>>
+
+:: Eden Wolf Game 3
+    <<if $eden_branch is 1>>
+        伊甸看着你叼着树枝跑向<<he>>，用手接住树枝并捏了捏你的脸颊。“乖孩子。”<<he>>爱怜地摸着你的下巴。<br>
+        <<he>>站起身来，走之前亲了一下你的额头。“就先玩到这里吧。你真是一只乖狗狗。”<<he>>对着你笑了笑。<br>
+    <<else>>
+        伊甸看着你垂着头低落地返回，还发出呜呜的声音，叹了口气。“这对你来说还太难了，对吗？”<br>
+        <<he>>摸了摸你的头以示安慰。“没关系，下次我会轻点的。”<<gdom>><<glove>><<npcincr Eden love 2>><<npcincr Eden dom 1>><br>
+    <</if>><br>
+    <<link [[继续|Clearing Eden Actions]]>><</link>>
+
+:: Eden Wolf Game Refuse
+
+    <<print speechDif(
+        "“你把我当什么了？你的猎犬？？”你反驳道，双手叉腰<<if $transformationParts.wolf.tail isnot "hidden" || $transformationParts.fox.tail isnot "hidden">><<if $transformationParts.fox.tail isnot "disabled" || $transformationParts.wolf.tail isnot "disabled">>，试图去掩饰你那因为激动而摇摆的尾巴<</if>><</if>>。",
+        "“什么？”你皱眉，站在原地看着伊甸。“我不想这样。”即使你的本能促使你去答应，但理性更胜一筹。你摇摇头。",
+        "“……？？！”你歪着头看着伊甸，“我……我不想玩这个……伊甸。”你低下头去，声音很小。",
+    )>>
+
+    <br><br>“你不愿意就算了。”<br>
+    伊甸看了你一眼，也没有继续要求你，只是把树枝扔掉并走开了。<br>
+    <<link [[继续|Eden Clearing]]>><</link>>
+
+:: Eden Wolf Crash 1
+
+    你在小屋的空地上。看到伊甸从小屋里出来，<<he>>走到你附近并伸了个懒腰。他<<he>>看起来放松了警惕。<br>
+    你有了一个想法。<br><br>
+    
+    <<link [[实施它|Eden Wolf Crash 2]] >><</link>>
+    <<link [[还是算了|Eden Wolf Crash Give Up]]>><</link>>
+    
+:: Eden Wolf Crash 2
+
+    你坏笑着靠近，耳朵向后并做好了伏击的准备。此刻伊甸是你的猎物，<br>你舔了舔嘴唇，蓄势待发。<br>
+    “嘿伊甸！”话音刚落，你便扑了过去，用头撞击<<he>>的腰部。<br><br>
+    
+    <<link [[继续|Eden Wolf Crash 3]]>><</link>><<athleticsdifficulty 0 1500>>
+
+:: Eden Wolf Crash 3
+
+    <<if $athleticsSuccess>>
+
+        “……！啊！”伊甸被你撞倒在草地上，<<he>>立刻扭过身子仰面躺在地上。<br>
+        “你这个坏<<girl>>，搞什么鬼？”<<he>>明显有一些慌张，想要把你推开。<<lldom>><<npcincr Eden dom -5>><br>
+        <<physique 2>><br><br>
+    
+        <<link [[接着玩耍|Eden Wolf Crash 4]]>><</link>><br>
+        <<link [[离开|Eden Wolf Crash Leave]]>><</link>>
+
+    <<else>>
+
+        你用尽全身力气去撞<<he>>，可<<he>>仍然不为所动。你感到头晕目眩。<<ggpain>><<pain +20>><br>
+        “你在干什么？”伊甸把你扶起来，一脸疑惑地看着你。“受伤了吗？”<br>
+        “没……没事。”你稳定下来后灰溜溜地跑走了。<br>
+        <<physique 2>><br><br>
+        <<link [[继续|Eden Clearing]]]>><</link>>
+
+    <</if>>
+
+:: Eden Wolf Crash 4
+
+    “我只是想和你玩。”你用可怜狗狗眼看着<<he>>，并发出呜呜声。<br>
+    但你的手并不老实，拉扯着<<he>>的衣服。<<gglust>><<npcincr Eden lust 5>><br><br>
+    “你这只坏狗狗。”<<he>>皱着眉看着你胡作非为。<br>当<<he>>想要阻止你的时候，你用更大的力气摁住<<he>>。<br>
+    看起来<<he>>没有别的选择了。你舔舔嘴唇，欣赏着<<he>>在你身下的狼狈样子。<<arousal 1800>><<ggarousal>><br>
+    “看够了吗？”伊甸有点恼怒，<<he>>并不习惯被压在身下的感觉。<br>
+    你摇了摇头，俯身啃咬着他的脖颈，流下口水和深深浅浅的牙印。<br>
+    听见<<he>>止不住的低喘，你感到很爽。<<llstress>><<stress -8>><br><br>
+    “下次你如果再这样，我会惩罚你。”伊甸忍无可忍把你反扑在地上，但看到你无辜的狗狗眼之后还是叹了口气放过了你。<br>
+    <<he>>整理了一下衣襟便站起身去工作了。<br><br>
+    <<link [[继续|Eden Clearing]]>><</link>>
+
+:: Eden Wolf Crash Leave
+
+    “只是想和你玩。”
+    <<if $transformationParts.wolf.tail isnot "hidden" || $transformationParts.fox.tail isnot "hidden">>
+        <<if $transformationParts.fox.tail isnot "disabled" || $transformationParts.wolf.tail isnot "disabled">>
+        你甩了甩尾巴，拍了拍身上的灰之后离开。<br>
+    <<else>>
+        你拍了拍身上的灰之后离开。<br>
+    <</if>><</if>>
+    完全不理睬一脸疑惑的伊甸。<br><br>
+    <<link [[继续|Eden Clearing]]>><</link>>
+    
+:: Eden Wolf Crash Give Up
+
+    你挠了挠头，看着伊甸放松完之后便去做他的日常工作。短暂的休息让他精神了不少。<<llstress>><<stress -7>><br><br>
+    <<link [[继续|Eden Clearing]]>><</link>>
+
+:: Eden Water Fight
+<<if $daily.eden_water_fight is 1>>
+伊甸注意到你的动作，快步走到你身边，<<he>>的身躯挡住了你头上的光而让阴影笼罩你。<br>
+“看起来很不错，我很高兴你会选择清理这个。”<<he>>笑了笑，丝毫不顾你因为<<he>>的目光而有些泛红的脸颊。<br>
+“我也想休息一下。”伊甸走远几步，随后你听见<<he>>衣服脱下并随意扔在周围草地上的声音。
+<<elseif $daily.eden_water_fight is 2>>
+你赶忙回过头去而躲避<<he>>的视线，却没注意到伊甸的脚步声越来越近，直到<<he>>的阴影完全笼罩住了你。<br>
+“我很高兴你愿意清理泉水。”<<he>>低头看着你，好像并没有在意你的神情。<<he>>慢条斯理地褪去<<he>>的衣物并随意扔在周围草地上。
+<</if>><br>
+
+<<he>>进入水中的动静不小，一些水花溅在你身上。你有些不满地看着伊甸。<br>
+<<if ($fox gte 4 or $wolfgirl gte 4 or $cat gte 4) and ($transformationParts.wolf.ears isnot 'hidden' or $transformationParts.cat.ears isnot 'hidden' or $transformationParts.fox.ears isnot 'hidden')>>
+    你有些被吓到，耳朵迅速成为飞机耳，然后皱眉盯着伊甸。
+<<elseif ($harpy gte 6) and ($transformationParts.bird.wings isnot "hidden")>>
+    你有些被吓到，翅膀羽毛瞬间蓬松起来，叽喳叫着。
+<<elseif $cow gte 4 and $transformationParts.cow.ears isnot 'hidden'>>
+    你的耳朵扇了扇，然后回头看向伊甸，不满地哞了一声。
+<</if>>
+<br>伊甸看着你狼狈的样子不禁笑了起来，又用一些力气搅动泉水泼向你。<br><br>
+
+<<link [[反击！|Eden Water Fight 2]]>><</link>><<set $skulduggerydifficulty to 500>><<skulduggerydifficulty>>
+
+
+:: Eden Water Fight 2
+
+你用胳膊挡住部分水花，看着伊甸愉快的神情，你不甘示弱，用手捧起水向<<he>>的脸泼去。<br><br>
+<<skulduggerycheck>>
+<<if $skulduggerysuccess is 1>>
+伊甸没有预料到你的动作，<<he>>额前的头发被打湿，<<he>>只能停下动作用手擦去脸上的水。<br>
+而你并没有给<<he>>休战的机会，一边游向<<he>>一边继续用水泼<<he>>，直到<<he>>连连笑着举起双手投降。<<lllstress>><<stress -8>>
+<<else>>
+猎人的感觉总是精准，伊甸用胳膊挡住了你泼去的水花，挑眉看向你。<br>
+“认真起来了？”<<he>>游向你，离你更近。
+<</if>><br>
+伊甸擦去你脸上的水珠，又揉了揉你的头发。“就此停战，好吧？”<<he>>把你拉入怀里，你能感受到<<he>>的心跳声。<<garousal>><<arousal 1000>><br>
+<<he>>又抱了你一会便离开泉水，只留着你看着<<he>>愣神。<br><br>
+<<link [[继续|Clearing Spring]]>><</link>>
+
+
+:: Eden Sniff
+
+<<npc Eden>><<person1>>
+你一下扑在床铺上，脸埋入柔软的被窝中，大口呼吸着属于伊甸的气息。喉咙里发出愉悦的轻哼。<br>
+<script>
+const tailConditions = [
+  V.fox >= 6 && V.transformationParts.fox?.tail !== "hidden",
+  V.cow >= 6 && V.transformationParts.cow?.tail !== "hidden",
+  V.cat >= 6 && V.transformationParts.cat?.tail !== "hidden",
+  V.wolfgirl >= 6 && V.transformationParts.wolf?.tail !== "hidden"
+];
+V.animalTailCheck = tailConditions.some(condition => condition);
+
+const earConditions = [
+  V.fox >= 4 && V.transformationParts.fox?.ears !== "hidden",
+  V.cow >= 4 && V.transformationParts.cow?.ears !== "hidden",
+  V.cat >= 4 && V.transformationParts.cat?.ears !== "hidden",
+  V.wolfgirl >= 4 && V.transformationParts.wolf?.ears !== "hidden"
+];
+
+V.animalEarCheck = earConditions.some(condition => condition);
+</script>
+<<if $harpy >= 4>>
+    你的羽毛微微蓬松起来。
+<<elseif $animalTailCheck>>
+    你的尾巴不禁轻轻摇晃起来。
+<</if>><br>
+床铺被你弄乱，可你并不想离开，反而用身体轻轻蹭着，幻想着伊甸的抚摸。<<ggarousal>><<arousal 1800>><br><br>
+
+你不知道趴了多久，当你听见门发出吱呀一声时想要逃离已经来不及了。你一回头便对上伊甸疑惑的眼神。<br>
+“你在做什么？”<<he>>挑眉，叉着腰俯视你。<br><br>
+<!--李在赣神魔？ -->
+
+<<if $speech_attitude is "bratty" >>
+    你迅速翻坐起来。“我，我才没有……你看我做什么？没点正事？”你勉强与他/她对上视线，脸上的潮红早已出卖了你，可你仍然皱着眉表示反抗。<br>
+
+    <<if $cow gte 2 and $transformationParts.cow.horns isnot "hidden">>
+        你晃了晃你的头，向<<he>>表示你的角并不好对付。
+    <<elseif $animalEarCheck and $animalTailCheck>>
+        你的耳朵向后倾并且炸毛，向他/她发出警告的低吼声。尾巴不安地大幅度摆动。你露出你的犬齿表示威胁。
+    <<elseif $harpy gte 4>>
+        你用锐利的目光盯着<<he>>。
+    <</if>>
+<<elseif $speech_attitude is "meek">>
+    “我……我只是……”你起身坐在床铺上，避开和<<he>>的眼神接触，反而看向已经被你弄乱的床铺。又有什么好解释的呢？你支支吾吾不知道说些什么好，只因为紧张和羞涩而大口呼吸着。<<ggarousal>><<gstress>><<arousal 1800>><<stress 3>><br>
+    <<if $animalEarCheck and $animalTailCheck>>
+        你的耳朵温顺的垂下，尾巴顺从地贴在你的大腿外侧。
+    <<elseif ($harpy gte 6) and ($transformationParts.bird.wings isnot "hidden")>>
+        你的翅膀乖乖的收拢。
+    <</if>>
+<<else>>
+    “……”你张嘴想要解释，正对上伊甸的目光时还是怯懦了。只能低下头看向一边。被弄乱的床铺完全向伊甸揭示了你做了什么事情，你抿着嘴，手指紧紧捏紧被子的一角。<<garousal>><<gstress>><<arousal 1000>><<stress 3>>
+<</if>><br>
+
+<<if $speech_attitude is "bratty">>
+    你观察到<<he>>眉头紧锁，紧接着你被<<he>>狠狠摁倒在床上，<<he>>的手紧紧握着你的脖子。“你做过什么我心知肚明。不过你好像并不想老实点。”<<he>>的握力加重，你的呼吸变得慌乱而急促。“看起来我需要给你上一课。”<<he>>啃咬你的耳垂。<<ggpain>><<pain 5>><<ggarousal>><<arousal 1800>><br><br>
+    <<link [[继续|Eden Sniff Sex]]>><<set $molestationstart to 1>><</link>>
+<<else>>
+    伊甸仍然看着你，你看不出<<he>>的神情变化。“我离开太久了是吗？”<br>
+    <<he>>靠近你，坐在你身边，“还是……你太想我了？”<<he>>把你推倒在床铺上，炽热的气息让你抓狂。<<ggarousal>><<arousal 1800>><br><br>
+    <<link [[继续|Eden Sniff Sex]]>><<set $sexstart to 1>><</link>>
+<</if>>
+
+
+:: Eden Sniff Sex
+
+<<if $sexstart is 1>>
+	<<set $sexstart to 0>>
+	<<consensual>>
+	<<set $consensual to 1>>
+	<<neutral 1>>
+	<<maninit>>
+	<<set $enemytrust += 100>><<set $enemyhealth to 600>><<set $enemyhealthmax to 600>>
+	<<promiscuity1>>
+<<elseif $molestationstart is 1>>
+	<<set $molestationstart to 0>>
+	<<controlloss>>
+	<<violence 1>>
+	<<neutral 1>>
+	<<molested>>
+	<<maninit>><<set $enemyhealth to 600>><<set $enemyhealthmax to 600>><<set $enemyanger += 50>>
+<</if>>
+
+<<effects>>
+<<effectsman>>
+<<man>>
+<<stateman>>
+<br><br>
+<<actionsman>>
+
+<<if _combatend>>
+	<span id="next"><<link [[继续|Eden Sniff Sex Finish]]>><</link>></span><<nexttext>>
+<<else>>
+	<span id="next"><<link [[继续|Eden Sniff Sex]]>><</link>></span><<nexttext>>
+<</if>>
+
+:: Eden Sniff Sex Finish
+
+“看起来我以后要考虑当我不在时你的需求。”伊甸把你抱在怀里，轻拍你的背帮助你缓过来。<<he>>用被子把你包裹住，随后让你的脸埋入<<he>>的胸膛。你闻着<<he>>的气味缓缓入睡。<<llstress>><<stress -7>><br><br>
+<<clotheson>>
+<<endcombat>>
+
+<<link [[继续|Cabin Actions]]>><</link>>
