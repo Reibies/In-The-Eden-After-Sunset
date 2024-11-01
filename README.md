@@ -66,6 +66,8 @@
 
 5.2.8版本使用旧版本简易框架照镜子会报错，请把简易框架更新至最新版本。
 
+老存档可能会出现伊甸受伤贴图错误显示的问题，如果在安装mod前经历过伊甸受伤事件，用言灵 [[救一下啊|$passage][$eden_hurt = 1]] 补救
+
 # ENG VERSHION
 This is a mod loaded using ModLoader that depends on the Simple Frameworks mod. 
 
