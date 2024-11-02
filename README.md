@@ -1,3 +1,5 @@
+## [[English ReadME]](README_EN.md)
+
 # 日落伊甸园 In the Eden After Sunset
 这是个为伊甸小屋以及室外添加小地图的mod。
 
