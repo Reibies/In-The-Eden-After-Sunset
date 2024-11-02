@@ -68,7 +68,7 @@
 
 老存档可能会出现伊甸受伤贴图错误显示的问题，如果在安装mod前经历过伊甸受伤事件，用言灵 [[救一下啊|$passage][$eden_hurt = 1]] 补救
 
-未知原因，部分存档可能会出现js解释器报错（现象为pc和伊甸小人不见），更改发色和眼睛颜色后解决（染发、作弊更改、换美瞳）
+未知原因（可能是装了添加可选头发颜色的mod后，再卸载它导致的），部分存档可能会出现js解释器报错Error: Cannot read properties of undefined (reading'canvasfilter').（现象为pc和伊甸小人不见），更改发色和眼睛颜色后解决（染发、作弊更改、换美瞳）
 
 # ENG VERSHION
 This is a mod loaded using ModLoader that depends on the Simple Frameworks mod. 
