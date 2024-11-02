@@ -60,15 +60,16 @@
      
 ### 目前已知bug
 
+```diff
+- 5.2.8版本使用旧版本简易框架会报错，请把简易框架更新至最新版本。
+```
 有时动画会错误显示（尽力修复）
 
 夜晚时，部分动图会出现蒙版和动画本体不同步的情况（白边，这个问题似乎不能修复）
 
-5.2.8版本使用旧版本简易框架照镜子会报错，请把简易框架更新至最新版本。
-
 老存档可能会出现伊甸受伤贴图错误显示的问题，如果在安装mod前经历过伊甸受伤事件，用言灵 [[救一下啊|$passage][$eden_hurt = 1]] 补救
 
-未知原因（可能是装了添加可选头发颜色的mod后，再卸载它导致的），部分存档可能会出现js解释器报错Error: Cannot read properties of undefined (reading'canvasfilter').（现象为pc和伊甸小人不见），更改发色和眼睛颜色后解决（染发、作弊更改、换美瞳）
+4.0等老版本不推荐使用，会出现很多兼容性问题，如果你执意要用4.0的游戏版本运行这个mod，需要把twee文件中关于weather的判别语句全部删除。
 
 # ENG VERSHION
 This is a mod loaded using ModLoader that depends on the Simple Frameworks mod. 
