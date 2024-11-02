@@ -4,6 +4,11 @@
 ## 添加内容
 
 添加了一些拓展剧情、两张地图、若干pc与伊甸互动的动画（以及奇怪的收音机）。
+<details><summary><b>展开查看图片</b></summary>
+ 
+![image](https://github.com/LooopSpiner/In-The-Eden-After-Sunset/blob/main/images_in_md/1.gif)
+![image](https://github.com/LooopSpiner/In-The-Eden-After-Sunset/blob/main/images_in_md/2.png)
+</details>
 
 ### 使用方法
 
