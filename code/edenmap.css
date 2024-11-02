@@ -44,7 +44,7 @@
 
 .edenmapnight_light {
     position: absolute;
-    z-index: 14;
+    z-index: 27;
     top: 0;
 	left: 0;
     isolation:isolate; 
@@ -54,7 +54,7 @@
 
 .edenmapnight_light_blur {
     position: absolute;
-    z-index: 13;
+    z-index: 27;
     top: 0;
 	left: 0;
     mix-blend-mode: hard-light; 
@@ -65,7 +65,7 @@
 
 .edenmapnight_light_fireplace {
     position: absolute;
-    z-index: 13;
+    z-index: 28;
     top: 0;
 	left: 0;
     mix-blend-mode: overlay; 
