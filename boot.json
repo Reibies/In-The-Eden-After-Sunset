@@ -1,6 +1,6 @@
 {
     "name": "日落伊甸园", 
-    "version": "1.0.1", 
+    "version": "1.0.3", 
     "scriptFileList_inject_early": [],
     "scriptFileList_earlyload": [
     ],
@@ -350,7 +350,7 @@
         "img/misc/edenmap_winter.png",
         "img/misc/cage.png",
         "img/misc/cage_open.png",
-        "img/misc/coat.png"
+        "img/misc/indoor/coat.png"
     ],
     "additionFile": [],
     "addonPlugin": [
@@ -472,9 +472,25 @@
             "findString": "<</if>>\n<br><br>",
             "replace": "<</if>>\n<br><br><<set $daily.eden_lunch to Math.floor(($rng-1)/20)>>",
             "_comment7": "记录午餐rng"
+          },
+          {
+            "passage": "Eden Cabin",
+            "findString": "<<elseif Time.days % 2 is 0>>",
+            "replace": "<<elseif Time.days % 2 is 0>><<set $daily.gun to 1>>",
+            "_comment7": "伊甸擦枪"
+          },
+          {
+            "passage": "Eden Cabin",
+            "findString": "Cabin Eden Actions]]>><</link>>\n\t\t\t<br><br>\n\t\t\t<<if",
+            "replace": "Cabin Eden Actions]]>><</link>><br><<if $daily.gun and !$daily.eden_gun and random(1,5) is 5>><<npc Eden>><<person1>><<link [[偷偷从背后靠近|Eden Gun]]>><<set $skulduggerydifficulty to 1000>><<skulduggerydifficulty>><</link>><</if>>\n\t\t\t<br><br>\n\t\t\t<<if",
+            "_comment7": "伊甸擦枪"
+          },
+          {
+            "passage": "Eden Cabin",
+            "findString": "<br><br>\n<<else>>",
+            "replace": "<br><br>\n<<elseif !$daily.eden_figure && Time.hour gt 18 && random(1,100) is 100>><<set $daily.eden_figure to 1>><<npc Eden>><<person1>>你回到小屋，壁炉的火焰噼啪作响，你感到很安心。<br>你注意到壁炉上方平台上有着什么东西。被好奇心驱使，你缓缓走近，直到看清楚那是……一个木雕？<br><br><<link [[继续|Eden Figure]]>><</link>><<else>>",
+            "_comment7": "伊甸木雕"
           }
-          
-          
           
         ]
       },

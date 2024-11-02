@@ -5,13 +5,15 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
+    image-rendering: crisp-edges;
 }
 
 #edenmap {
-	position: absolute;
-	z-index: 10;
-	top: 0;
-	left: 0;
+	width: 260px;
+    height: 130px;
+    position: absolute;
+    text-align: left;
+    z-index: 0;
 }
 
 :root {
@@ -37,6 +39,7 @@
 	left: 0;
     mix-blend-mode: multiply; 
     opacity: var(--eden_night_opacity);
+    pointer-events: none;
 }
 
 .edenmapnight_light {
@@ -46,6 +49,7 @@
 	left: 0;
     isolation:isolate; 
     animation: window_light 5s infinite;
+    pointer-events: none;
 }
 
 .edenmapnight_light_blur {
@@ -56,6 +60,7 @@
     mix-blend-mode: hard-light; 
     isolation:isolate; 
     animation: window_light_blur 3s infinite ;
+    pointer-events: none;
 }
 
 .edenmapnight_light_fireplace {
@@ -66,6 +71,7 @@
     mix-blend-mode: overlay; 
     isolation:isolate; 
     opacity: 0.3;
+    pointer-events: none;
 }
 
 .edenmapfence {
@@ -73,6 +79,7 @@
     z-index: 20;
     top: 0;
 	left: 0;
+    pointer-events: none;
 }
 
 .edenmapitem {
@@ -80,6 +87,7 @@
     z-index: 11;
     top:0;
     left:0;
+    pointer-events: none;
 }
 
 .edenmapfurniture {
@@ -87,6 +95,7 @@
     z-index: 12;
     top:0;
     left:0;
+    pointer-events: none;
 }
 
 .edenmapcarpet {
@@ -94,6 +103,7 @@
     z-index: 10;
     top:0;
     left:0;
+    pointer-events: none;
 }
 
 .pc_img_hair_color_cover {

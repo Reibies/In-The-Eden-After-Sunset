@@ -186,107 +186,117 @@
 
 		/*This version of sugarcube doesn't perform any processing inside of SVG elements, so we need to perform those actions ourselves inside a custom macro */
 		<div class="divedenmap">
-		<<svg 260 130>>
-			<image x="2" href="img/misc/indoor/main.png"/>
-            <<if $edenradiointro is 2>>
-                    <img x="2" href="img/misc/indoor/radio.png" class="edenmapitem"/>
-            <</if>>
-            <<if $edenpillow is 2>>
-                <image x="2" href="img/misc/indoor/carpet.png" class="edenmapcarpet"/>
-                <<if $edenloveseat is 9>>
-                    <image x="2" href="img/misc/indoor/cushion.png" class="edenmapitem"/>
-                <</if>>
-            <</if>>
-            <<if $edencoat is 2>>
-                <image x="2" href="img/misc/indoor/hatstand.png" class="edenmapitem"/>
-                <<if $edencoatjacket is 1 and !(Time.hour gte 11 and Time.hour lte 14 and $daily.eden.hunting is 1)>>
-                    <image x="2" href="img/misc/indoor/coat.png" class="edenmapfurniture"/>
-                <</if>>
-                <<if $edenscarf is 1>>
-                    <image x="2" href="img/misc/indoor/scarf.png" class="edenmapfurniture"/>
-                <</if>>
-            <</if>>
-            <image x="2" href="img/misc/indoor/wall.png" class="edenmapfurniture"/>
-            <image x="2" href="img/misc/indoor/table.png" class="edenmapitem"/>
-            <<if Time.hour is 17 || $bath_passages.includes($passage)>>
-                <image x="2" href="img/misc/indoor/tub_full.png" class="edenmapfurniture"/>
-            <<else>>
-                <image x="2" href="img/misc/indoor/tub.png" class="edenmapfurniture"/>
-            <</if>>
-            <<if $daily.eden.supplies isnot 1>>
-                <image x="2" href="img/misc/indoor/supplies.png" class="edenmapitem"/>
-            <</if>>
-            <<if $daily.eden.sew isnot 1 or $edencushions is 1 or $edendesign lt 9 or (Time.season is "winter" and !$edenscarf and $edencoat is 2)>>
-                <image x="2" href="img/misc/indoor/sew.png" class="edenmapitem"/>
-            <</if>>
-            <<if Time.hour gte 18 and Time.hour lte 19 and Time.monthDay is 25 and $christmas_gift_eden_given is 1>>
-                <image x="2" href="img/misc/indoor/food/xmas.png" class="edenmapfurniture"/>
-            <<elseif Time.hour gte 18 and Time.hour lte 19 and C.npc.Eden.love gte 100>>
-                <<switch $daily.eden_dinner>>
-                    <<case 0>>
-                        <image x="2" href="img/misc/indoor/food/dailyfood1.png" class="edenmapfurniture"/>
-                    <<case 1>>
-                        <image x="2" href="img/misc/indoor/food/dailyfood2.png" class="edenmapfurniture"/>
-                    <<case 2>>
-                        <image x="2" href="img/misc/indoor/food/dailyfood3.png" class="edenmapfurniture"/>
-                    <<case 3>>
-                        <image x="2" href="img/misc/indoor/food/dailyfood4.png" class="edenmapfurniture"/>
-                    <<case 4>>
-                        <image x="2" href="img/misc/indoor/food/dailyfood5.png" class="edenmapfurniture"/>
-                <</switch>>
-            <<elseif Time.hour gte 7 && Time.hour lte 8>>
-                <<switch $daily.eden_breakfast>>
-                    <<case 0>>
-                        <image x="2" href="img/misc/indoor/food/breakfast.png" class="edenmapfurniture"/>
-                    <<case 1>>
-                        <image x="2" @href="'img/misc/indoor/food/special_breakfast'+ $daily.eden_random_breakfast +'.png'" class="edenmapfurniture"/>
-                <</switch>>
-            <</if>>
-			<<if Time.hour gte 19 || Time.hour lt 8 >>
-				<image class="edenmapnight" x="2" href="img/misc/indoor/indoor_night.png"/>
-				<script>
-					var edenmapnight = document.getElementsByClassName("edenmapnight");
-					
-					for(var i = 0 ; i < edenmapnight.length ; i++){
-						if((Time.hour*60+Time.minute) < 1230 && (Time.hour*60+Time.minute) >= 1140)
-						{
-							edenmapnight[i].style.setProperty("--eden_night_opacity",eden_night_opacity_night) 
-						}
-						else if((Time.hour*60+Time.minute) < 480 && (Time.hour*60+Time.minute) >= 360)
-						{
-							edenmapnight[i].style.setProperty("--eden_night_opacity",eden_night_opacity_morning) 
-						}
-						else
-						{
-							edenmapnight[i].style.setProperty("--eden_night_opacity",1)
-						}
-					}
-				</script>
-				
-			<</if>>
-            <<if Time.hour gte 17 || Time.hour lt 7 >>
-                    <image class="edenmapnight_light_fireplace" x="2" href="img/misc/indoor/indoor_night_fireplace.gif"/>
-					<image class="edenmapnight_light" x="2" href="img/misc/indoor/indoor_night_fire.gif"/>
-					<image class="edenmapnight_light_blur" x="2" href="img/misc/indoor/indoor_night_light.png"/>
-				<</if>>
+		<div id ="edenmap">
+    <img  src="img/misc/indoor/main.png" />
+
+    <<if $edenradiointro is 2>>
+        <img  src="img/misc/indoor/radio.png" class="edenmapitem" />
+    <</if>>
+
+    <<if $edenpillow is 2>>
+        <img  src="img/misc/indoor/carpet.png" class="edenmapcarpet" />
+        <<if $edenloveseat is 9>>
+            <img  src="img/misc/indoor/cushion.png" class="edenmapitem" />
+        <</if>>
+    <</if>>
+
+    <<if $edencoat is 2>>
+        <img  src="img/misc/indoor/hatstand.png" class="edenmapitem" />
+        <<if $edencoatjacket is 1 and !(Time.hour gte 11 and Time.hour lte 14 and $daily.eden.hunting is 1)>>
+            <img  src="img/misc/indoor/coat.png" class="edenmapfurniture" />
+        <</if>>
+        <<if $edenscarf is 1>>
+            <img  src="img/misc/indoor/scarf.png" class="edenmapfurniture" />
+        <</if>>
+    <</if>>
+
+    <img  src="img/misc/indoor/wall.png" class="edenmapfurniture" />
+    <img  src="img/misc/indoor/table.png" class="edenmapitem" />
+
+    <<if Time.hour is 17 || $bath_passages.includes($passage)>>
+        <img  src="img/misc/indoor/tub_full.png" class="edenmapfurniture" />
+    <<else>>
+        <img  src="img/misc/indoor/tub.png" class="edenmapfurniture" />
+    <</if>>
+
+    <<if $daily.eden.supplies isnot 1>>
+        <img  src="img/misc/indoor/supplies.png" class="edenmapitem" />
+    <</if>>
+
+    <<if $daily.eden.sew isnot 1 or $edencushions is 1 or $edendesign lt 9 or (Time.season is "winter" and !$edenscarf and $edencoat is 2)>>
+        <img  src="img/misc/indoor/sew.png" class="edenmapitem" />
+    <</if>>
+
+    <<if Time.hour gte 18 and Time.hour lte 19 and Time.monthDay is 25 and $christmas_gift_eden_given is 1>>
+        <img  src="img/misc/indoor/food/xmas.png" class="edenmapfurniture" />
+    <<elseif Time.hour gte 18 and Time.hour lte 19 and C.npc.Eden.love gte 100>>
+        <<switch $daily.eden_dinner>>
+            <<case 0>>
+                <img  src="img/misc/indoor/food/dailyfood1.png" class="edenmapfurniture" />
+            <<case 1>>
+                <img  src="img/misc/indoor/food/dailyfood2.png" class="edenmapfurniture" />
+            <<case 2>>
+                <img  src="img/misc/indoor/food/dailyfood3.png" class="edenmapfurniture" />
+            <<case 3>>
+                <img  src="img/misc/indoor/food/dailyfood4.png" class="edenmapfurniture" />
+            <<case 4>>
+                <img  src="img/misc/indoor/food/dailyfood5.png" class="edenmapfurniture" />
+        <</switch>>
+    <<elseif Time.hour gte 7 && Time.hour lte 8>>
+        <<switch $daily.eden_breakfast>>
+            <<case 0>>
+                <img  src="img/misc/indoor/food/breakfast.png" class="edenmapfurniture" />
+            <<case 1>>
+                <img  @src="'img/misc/indoor/food/special_breakfast'+ $daily.eden_random_breakfast +'.png'" class="edenmapfurniture" />
+        <</switch>>
+    <</if>>
+
+    <<if Time.hour gte 19 || Time.hour lt 8 >>
+        <img class="edenmapnight"  src="img/misc/indoor/indoor_night.png" />
+        <script>
+            var edenmapnight = document.getElementsByClassName("edenmapnight");
+            
+            for(var i = 0 ; i < edenmapnight.length ; i++){
+                if((Time.hour * 60 + Time.minute) < 1230 && (Time.hour * 60 + Time.minute) >= 1140) {
+                    edenmapnight[i].style.setProperty("--eden_night_opacity", eden_night_opacity_night);
+                }
+                else if((Time.hour * 60 + Time.minute) < 480 && (Time.hour * 60 + Time.minute) >= 360) {
+                    edenmapnight[i].style.setProperty("--eden_night_opacity", eden_night_opacity_morning);
+                }
+                else {
+                    edenmapnight[i].style.setProperty("--eden_night_opacity", 1);
+                }
+            }
+        </script>
+    <</if>>
+
+    <<if Time.hour gte 17 || Time.hour lt 7 >>
+        <img class="edenmapnight_light_fireplace"  src="img/misc/indoor/indoor_night_fireplace.gif" />
+        <img class="edenmapnight_light"  src="img/misc/indoor/indoor_night_fire.gif" />
+        <img class="edenmapnight_light_blur"  src="img/misc/indoor/indoor_night_light.png" />
+    <</if>>
+
 			<<for _i to 0; _i lt $edenmap.edenarrayList.length; _i++>>
-				<<set _canMoveTo = $debug || $edenmap.available[$passage].includes($edenmap.edenarrayList[_i])>>
-				<<set _showMarker = $debug || ($options.mapMarkers && (_canMoveTo || $passage is $edenmap.edenarrayList[_i]))>>
+    <<set _canMoveTo = $debug || $edenmap.available[$passage].includes($edenmap.edenarrayList[_i])>>
+    <<set _showMarker = $debug || ($options.mapMarkers && (_canMoveTo || $passage is $edenmap.edenarrayList[_i]))>>
 
-				<a class="mapMove"
-						@onclick="'edenmapMove(V.edenmap.edenarrayList[' + _i + ']);'"
-						@alt="$edenmap.edenarrayList[_i] + (_canMoveTo ? ' (0:00)' : '')"
-						@title="$edenmap.edenarrayList[_i] + (_canMoveTo ? ' (0:00)' : '')">
-
-					<rect @x="_EdenBoxLocation[_i].x"
-							@y="_EdenBoxLocation[_i].y"
-							height="20"
-							width="24"
-							@style="'stroke:cyan;fill-opacity:0;stroke-opacity:' + (_showMarker ? '0.6' : '0') + ';'">
-					</rect>
-				</a>
-			<</for>>
-		<</svg>>
+    <a class="mapMove"
+       @onclick="'edenmapMove(V.edenmap.edenarrayList[' + _i + ']);'"
+       @alt="$edenmap.edenarrayList[_i] + (_canMoveTo ? ' (0:00)' : '')"
+       @title="$edenmap.edenarrayList[_i] + (_canMoveTo ? ' (0:00)' : '')">
+       
+        <div @style="'position: absolute;
+                    left: ' + _EdenBoxLocation[_i].x + 'px;
+                    top: ' + _EdenBoxLocation[_i].y + 'px;
+                    width: 30px;
+                    height: 34px;
+                    border: 1px solid cyan;
+                    opacity: '+ (_showMarker ? '0.6' : '0') +';
+                    background-color: transparent;'">
+        </div>
+    </a>
+<</for>>
+		</div>
 		</div>
 	<</if>>
 
@@ -295,8 +305,6 @@
 	<script>
 
         window.modImgLoaderHooker.addDynamicImageTagReplacePassage(V.passage);
-        var eden_svg = document.getElementsByTagName("svg");
-	    eden_svg[0].style.position = "absolute";
 
         var night_img = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACACAYAAADktbcKAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACNklEQVR4nO3dQUoDQRBAUSNe3rXX8I5x5UYQFDJdRf576yx6oPgZqIa5fX6831+ApLfpAzyXny29Pfj38FiLA/AMLyb/fYZneGb+bj74r9MHAOYsDYB/Qgrm53xpAIATBADCBADCBADClgZgfj0C15uf86UBAE4QAAhbGoD5/Shcb37OlwYAOEEAIEwAIEwAIGxpAOb3o3C9+TlfGgDgBAGAsKUBmN+PwvXm53xpAIATBADCBADCBADClgZgfj8K15uf86UBAE4QAAhbGoD5/Shcb37OlwYAOEEAIEwAIEwAIGxpAOb3o3C9+TlfGgDgBAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAMAGAsKUBuE8fABKWBgA4QQAgTAAgTAAgbGkAbtMHgISlAQBOEAAIWxoA9wDghKUBAE4QAAgTAAgTAAhbGgD3AOCEpQEAThAACFsaAPcA4ISlAQBOEAAIEwAIEwAIWxoA9wDghKUBAE4QAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAgTAAh7mz7A776/EHwfPQU83p6vX38BDuQUzDceDEEAAAAASUVORK5CYII=";
 
@@ -325,10 +333,9 @@
 			    case 4:
 			    	pc_direction = "back";
 			    	break;
-                default:
-                    pc_direction = "front";
 		    };
         };
+        randomPCdirection();
         switch (getRandom(1, 2)){
             case 1:
                 lil_pc_x = getRandom(98, 158);
@@ -630,6 +637,9 @@ var lil_pc_feet_color = resolveClothColor(V.worn.feet);
             lil_pc_div_img.style.zIndex = "2";
             pc_mirror.style.transform = "translateY(5px)translateX(120px)";
             eden_div[0].appendChild(pc_mirror);
+        }
+        if(!V.eden_hurt && V.edenhurt){
+            V.eden_hurt = 1;
         }
 
 reLoadAllGIFs();

@@ -27,9 +27,11 @@
     <<set $richard to ["3313653","559037042","28171824","5057087"]>><!--感谢贴吧用户_GV6D8DP提供的曲目(你的变量我也不知道怎么命名啊)-->
     <<set $xiatiya to ["1789389"]>><!--感谢贴吧用户夏缇娅提供的曲目 -->
     <<set $tama to ["1831401767"]>><!--感谢贴吧用户我たま吃吃吃提供的曲目 -->
+    <<set $nazale to ["28299268"]>><!--人生态度那咋了-->
+    <<set $black_cat to ["500412390"]>><!--黑猫姜撞奶（姜撞奶好吃吗？我还没吃过）-->
 
     <<set $eden_radio_program to[]>>
-    <<set $eden_radio_program to $eden_radio_program.concat($folk_blackmetal,$atmosperic_blackmetal,$raw_blackmetal,$symphonic_metal,$death_core,$gothic_metal,$metal_core,$melodic_deathmetal,$shilmista,$xuanzhuanww,$vyepyv,$bujizhidu,$gongfutiansha,$sanshiqiniang,$aqian,$chongkai,$zhongli,$prat,$dottie,$richard,$xiatiya,$tama)>>
+    <<set $eden_radio_program to $eden_radio_program.concat($folk_blackmetal,$atmosperic_blackmetal,$raw_blackmetal,$symphonic_metal,$death_core,$gothic_metal,$metal_core,$melodic_deathmetal,$shilmista,$xuanzhuanww,$vyepyv,$bujizhidu,$gongfutiansha,$sanshiqiniang,$aqian,$chongkai,$zhongli,$prat,$dottie,$richard,$xiatiya,$tama,$nazale,$black_cat)>>
     <<set $programid to Math.floor((Math.random()*$eden_radio_program.length))>>
     <<set $program to ($eden_radio_program[$programid])>>
     <<set $pain to 0>>
@@ -137,6 +139,10 @@
         说你爱我吧，我求你，我并非没有耐心，只是急切的渴望着而已。
     <<elseif $tama.includes($program)>>
         每一个音符都像是热饮在手中散发着温热，令人感到心灵的平静和安宁。
+    <<elseif $black_cat.includes($program)>>
+        这是一首蛮有节奏感的电子舞曲。它的歌词让你想到你们之间的爱情。斯德哥尔摩并没有那么可怕，至少对于现在而言，对吧？<<lltrauma>><<trauma -5>>
+    <<else>>
+        你听得很投入。
     <</if>>
     
     <br><br>

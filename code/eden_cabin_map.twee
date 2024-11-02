@@ -98,85 +98,82 @@
 
 		/*This version of sugarcube doesn't perform any processing inside of SVG elements, so we need to perform those actions ourselves inside a custom macro */
 		<div class="divedenmap">
-		<<svg 260 130>>
-			<image x="2" href="img/misc/edenmap.gif"/>
-			<image x="2" href="img/misc/edenmapfence.png"/>
-			<<if Time.season is "winter">>
-			    <image x="2" href="img/misc/edenmap_winter.png"/>
-		    <</if>>
-			<<switch $edenshrooms>>
-				<<case 1>>
-					<image class="edenmapitem" x="2" href="img/misc/edenmushroom1.png"/>
-				<<case 2>>
-					<image class="edenmapitem" x="2" href="img/misc/edenmushroom2.png"/>
-				<<case 3>>
-					<image class="edenmapitem" x="2" href="img/misc/edenmushroom3.png"/>
-				<<case 4>>
-					<image class="edenmapitem" x="2" href="img/misc/edenmushroom4.png"/>
-			<</switch>>
-			<<switch $edengarden>>
-				<<case 0>>
-					<image class="edenmapitem" x="2" href="img/misc/edenweeding0.png"/>
-				<<case 1>>
-					<image class="edenmapitem" x="2" href="img/misc/edenweeding1.png"/>
-				<<case 2>>
-					<image class="edenmapitem" x="2" href="img/misc/edenweeding2.png"/>
-				<<case 3>>
-					<image class="edenmapitem" x="2" href="img/misc/edenweeding3.png"/>
-			<</switch>>
-			<<switch $edenspring>>
-				<<case 0>>
-					<image class="edenmapitem" x="2" href="img/misc/edenspring0.gif"/>
-				<<case 1>>
-					<image class="edenmapitem" x="2" href="img/misc/edenspring1.gif"/>
-				<<case 2>>
-					<image class="edenmapitem" x="2" href="img/misc/edenspring2.gif"/>
-				<<case 3>>
-					<image class="edenmapitem" x="2" href="img/misc/edenspring3.gif"/>
-			<</switch>>
-			<<if Time.hour gte 19 || Time.hour lt 8 >>
-				<image class="edenmapnight" x="2" href="img/misc/edenmapnight.png"/>
-				<script>
-					var edenmapnight = document.getElementsByClassName("edenmapnight");
-					
-					for(var i = 0 ; i < edenmapnight.length ; i++){
-						if((Time.hour*60+Time.minute) < 1230 && (Time.hour*60+Time.minute) >= 1140)
-						{
-							edenmapnight[i].style.setProperty("--eden_night_opacity",eden_night_opacity_night) 
-						}
-						else if((Time.hour*60+Time.minute) < 480 && (Time.hour*60+Time.minute) >= 360)
-						{
-							edenmapnight[i].style.setProperty("--eden_night_opacity",eden_night_opacity_morning) 
-						}
-						else
-						{
-							edenmapnight[i].style.setProperty("--eden_night_opacity",1)
-						}
-					}
-				</script>
-				<<if Time.hour gte 19 || Time.hour lt 7 >>
-					<image class="edenmapnight_light" x="2" href="img/misc/edenmapnight_light.png"/>
-					<image class="edenmapnight_light_blur" x="2" href="img/misc/edenmapnight_light_blur.png"/>
-				<</if>>
-			<</if>>
-			<<for _i to 0; _i lt $edenmap.edenarrayList.length; _i++>>
-				<<set _canMoveTo = $debug || $edenmap.available[$passage].includes($edenmap.edenarrayList[_i])>>
-				<<set _showMarker = $debug || ($options.mapMarkers && (_canMoveTo || $passage is $edenmap.edenarrayList[_i]))>>
+		<div id = "edenmap">
+    <img  src="img/misc/edenmap.gif" />
+    <img  src="img/misc/edenmapfence.png" />
+    <<if Time.season is "winter">>
+        <img  src="img/misc/edenmap_winter.png" class="edenmapitem"/>
+    <</if>>
+    <<switch $edenshrooms>>
+        <<case 1>>
+            <img class="edenmapitem"  src="img/misc/edenmushroom1.png" />
+        <<case 2>>
+            <img class="edenmapitem"  src="img/misc/edenmushroom2.png" />
+        <<case 3>>
+            <img class="edenmapitem"  src="img/misc/edenmushroom3.png" />
+        <<case 4>>
+            <img class="edenmapitem"  src="img/misc/edenmushroom4.png" />
+    <</switch>>
+    <<switch $edengarden>>
+        <<case 0>>
+            <img class="edenmapitem"  src="img/misc/edenweeding0.png" />
+        <<case 1>>
+            <img class="edenmapitem"  src="img/misc/edenweeding1.png" />
+        <<case 2>>
+            <img class="edenmapitem"  src="img/misc/edenweeding2.png" />
+        <<case 3>>
+            <img class="edenmapitem"  src="img/misc/edenweeding3.png" />
+    <</switch>>
+    <<switch $edenspring>>
+        <<case 0>>
+            <img class="edenmapitem"  src="img/misc/edenspring0.gif" />
+        <<case 1>>
+            <img class="edenmapitem"  src="img/misc/edenspring1.gif" />
+        <<case 2>>
+            <img class="edenmapitem"  src="img/misc/edenspring2.gif" />
+        <<case 3>>
+            <img class="edenmapitem"  src="img/misc/edenspring3.gif" />
+    <</switch>>
+    <<if Time.hour gte 19 || Time.hour lt 8 >>
+        <img class="edenmapnight"  src="img/misc/edenmapnight.png" />
+        <script>
+            var edenmapnight = document.getElementsByClassName("edenmapnight");
+            for (var i = 0; i < edenmapnight.length; i++) {
+                if ((Time.hour * 60 + Time.minute) < 1230 && (Time.hour * 60 + Time.minute) >= 1140) {
+                    edenmapnight[i].style.setProperty("--eden_night_opacity", eden_night_opacity_night);
+                } else if ((Time.hour * 60 + Time.minute) < 480 && (Time.hour * 60 + Time.minute) >= 360) {
+                    edenmapnight[i].style.setProperty("--eden_night_opacity", eden_night_opacity_morning);
+                } else {
+                    edenmapnight[i].style.setProperty("--eden_night_opacity", 1);
+                }
+            }
+        </script>
+        <<if Time.hour gte 19 || Time.hour lt 7 >>
+            <img class="edenmapnight_light"  src="img/misc/edenmapnight_light.png" />
+            <img class="edenmapnight_light_blur"  src="img/misc/edenmapnight_light_blur.png" />
+        <</if>>
+    <</if>>
+    <<for _i to 0; _i lt $edenmap.edenarrayList.length; _i++>>
+    <<set _canMoveTo = $debug || $edenmap.available[$passage].includes($edenmap.edenarrayList[_i])>>
+    <<set _showMarker = $debug || ($options.mapMarkers && (_canMoveTo || $passage is $edenmap.edenarrayList[_i]))>>
 
-				<a class="mapMove"
-						@onclick="'edenmapMove(V.edenmap.edenarrayList[' + _i + ']);'"
-						@alt="$edenmap.edenarrayList[_i] + (_canMoveTo ? ' (0:00)' : '')"
-						@title="$edenmap.edenarrayList[_i] + (_canMoveTo ? ' (0:00)' : '')">
-
-					<rect @x="_EdenBoxLocation[_i].x"
-							@y="_EdenBoxLocation[_i].y"
-							height="34"
-							width="30"
-							@style="'stroke:cyan;fill-opacity:0;stroke-opacity:' + (_showMarker ? '0.6' : '0') + ';'">
-					</rect>
-				</a>
-			<</for>>
-		<</svg>>
+    <a class="mapMove"
+       @onclick="'edenmapMove(V.edenmap.edenarrayList[' + _i + ']);'"
+       @alt="$edenmap.edenarrayList[_i] + (_canMoveTo ? ' (0:00)' : '')"
+       @title="$edenmap.edenarrayList[_i] + (_canMoveTo ? ' (0:00)' : '')">
+       
+        <div @style="'position: absolute;
+                    left: ' + _EdenBoxLocation[_i].x + 'px;
+                    top: ' + _EdenBoxLocation[_i].y + 'px;
+                    width: 30px;
+                    height: 34px;
+                    border: 1px solid cyan;
+                    opacity: '+ (_showMarker ? '0.6' : '0') +';
+                    background-color: transparent;'">
+        </div>
+    </a>
+<</for>>
+		</div>
 		</div>
 	<</if>>
 	<<if $options.images is 1>>
@@ -189,146 +186,147 @@
 		var eden_div = document.getElementsByClassName("divedenmap");
 		var lil_pc_div_img = document.createElement("div");
 		lil_pc_div_img.setAttribute("class","pc_div");
-        var lil_eden_div_img = document.createElement("div");
-        var lil_eden = document.createElement("img");
-        lil_eden_div_img.setAttribute("class","eden_div");
-        var eden_direction = "default";
-        var pc_direction = "front";
+var lil_eden_div_img = document.createElement("div");
+var lil_eden = document.createElement("img");
+lil_eden_div_img.setAttribute("class","eden_div");
+var eden_direction = "default";
+var pc_direction = "front";
 
-        var lil_pc_x,lil_pc_y,lil_eden_x = 118,lil_eden_y = 55;
-        var pc_width = 26;
-        /*试图写一个获取图片宽度的函数，但是失败了。。 */
-		function randomPCdirection(){
-            switch(getRandom(1,4)){
-			    case 1:
-			    	pc_direction = "front";
-			    	break;
-			    case 2:
-			    	pc_direction = "left";
-			    	break;
-			    case 3:
-			    	pc_direction = "right";
-			    	break;
-			    case 4:
-			    	pc_direction = "back";
-			    	break;
-                default:
-                    pc_direction = "front";
-		    };
-        };
+var lil_pc_x, lil_pc_y, lil_eden_x = 116, lil_eden_y = 55;
+var pc_width = 26;
+/*试图写一个获取图片宽度的函数，但是失败了。。 */
+function randomPCdirection() {
+    switch (getRandom(1, 4)) {
+        case 1:
+            pc_direction = "front";
+            break;
+        case 2:
+            pc_direction = "left";
+            break;
+        case 3:
+            pc_direction = "right";
+            break;
+        case 4:
+            pc_direction = "back";
+            break;
+    };
+};randomPCdirection();
 
-		switch(getRandom(1, 6)){
-			case 1:
-				lil_pc_x = 88;
-				lil_pc_y = 78;
-				break;
-			case 2:
-				lil_pc_x = getRandom(48, 188);
-				lil_pc_y = 99;
-				break;
-			case 3:
-				lil_pc_x = getRandom(203, 231);
-				lil_pc_y = getRandom(23, 50);
-				break;
-			case 4:
-				lil_pc_x = getRandom(198, 231);
-				lil_pc_y = getRandom(88, 99);
-				break;
-			case 5:
-				lil_pc_x = 41;
-				lil_pc_y = 53;
-				break;
-			case 6:
-				lil_pc_x = 0;
-				lil_pc_y = 28;
-				break;
-			default:
-				lil_pc_x = 88;
-				lil_pc_y = 78;
-		};
+switch (getRandom(1, 6)) {
+    case 1:
+        lil_pc_x = 86;
+        lil_pc_y = 78;
+        break;
+    case 2:
+        lil_pc_x = getRandom(46, 186);
+        lil_pc_y = 99;
+        break;
+    case 3:
+        lil_pc_x = getRandom(201, 229);
+        lil_pc_y = getRandom(23, 50);
+        break;
+    case 4:
+        lil_pc_x = getRandom(196, 229);
+        lil_pc_y = getRandom(88, 99);
+        break;
+    case 5:
+        lil_pc_x = 39;
+        lil_pc_y = 53;
+        break;
+    case 6:
+        lil_pc_x = -2;
+        lil_pc_y = 28;
+        break;
+    default:
+        lil_pc_x = 86;
+        lil_pc_y = 78;
+};
 
-		if(V.worn.neck.collared !== 1 && V.edenaskcollar !== 1 && Time.hour >= 6 && V.passage == "Eden Clearing"){
-	        setPCandEdenPosition("right", 114, 66, "ask", 110, 45);
-            lil_eden_div_img.style.width = "50px";
-            lil_eden_div_img.style.height = "50px";
-        }
-		else if(T.edenPreyEvent && V.passage == "Eden Clearing" && Time.hour >= 11 && Time.hour <= 14 && V.daily.eden.hunting == 1 && !V.daily.eden_hunting){
-			setPCandEdenPosition("front", 88, 105, "breakfast_lust", 100, 98);
-		}
-		else if(!T.edenPreyEvent && V.passage == "Eden Clearing" && Time.hour >= 11 && Time.hour <= 14 && V.daily.eden.hunting == 1 && !V.daily.eden_hunting){
-			setPCandEdenPosition("left",95,71,"pet_head",80,65);
-		}
-		else if(V.edenCagedEscape && Time.hour >= 7 && V.passage == "Eden Clearing"){
-			setPCandEdenPosition("back",87,98,"default",95,70);
-			lil_eden_div_img.style.zIndex = "0";
-			apply_effect("sleep_effect", "img/misc/lil_eden/angry.gif", 113, 65, eden_div[0]);
-		}
-		else if (V.edenhurt && !V.eden_hurt){
-			setPCandEdenPosition("right",83,67,"wound_stand",98,55);
-		}
-		else if(V.passage == "Clearing Eden Actions"){
-			setPCandEdenPosition("right",103,66,"default",118,55);
-		}
-		else if(V.passage =="Clearing Fondle"){
-			setPCandEdenPosition("weeding_lust",230,40,"weeding_lust",221,35);
-			pc_width = 33;
-			lil_pc_div_img.style.width = "33px";
-		}
-    else if(V.passage == "Eden Shoot" || V.passage == "Eden Shoot First Focus" || V.passage == "Eden Shoot Focus"){
-      pc_width = 175;
-      lil_pc_div_img.style.width = "175px";
-      lil_pc_div_img.style.height = "33px";
-      setPCandEdenPosition("shoot",57,95,"shoot",49,94);
+if (V.worn.neck.collared !== 1 && V.edenaskcollar !== 1 && Time.hour >= 6 && V.passage == "Eden Clearing") {
+    setPCandEdenPosition("right", 112, 66, "ask", 108, 45);
+    lil_eden_div_img.style.width = "50px";
+    lil_eden_div_img.style.height = "50px";
+}
+else if (T.edenPreyEvent && V.passage == "Eden Clearing" && Time.hour >= 11 && Time.hour <= 14 && V.daily.eden.hunting == 1 && !V.daily.eden_hunting) {
+    setPCandEdenPosition("front", 86, 105, "breakfast_lust", 98, 98);
+}
+else if (!T.edenPreyEvent && V.passage == "Eden Clearing" && Time.hour >= 11 && Time.hour <= 14 && V.daily.eden.hunting == 1 && !V.daily.eden_hunting) {
+    setPCandEdenPosition("left", 93, 71, "pet_head", 78, 65);
+}
+else if (V.edenCagedEscape && Time.hour >= 7 && V.passage == "Eden Clearing") {
+    setPCandEdenPosition("back", 85, 98, "default", 93, 70);
+    lil_eden_div_img.style.zIndex = "0";
+    apply_effect("sleep_effect", "img/misc/lil_eden/angry.gif", 111, 65, eden_div[0]);
+}
+else if (V.edenhurt && !V.eden_hurt) {
+    setPCandEdenPosition("right", 81, 67, "wound_stand", 96, 55);
+}
+else if (V.passage == "Clearing Eden Actions") {
+    setPCandEdenPosition("right", 101, 66, "default", 116, 55);
+}
+else if (V.passage == "Clearing Fondle") {
+    setPCandEdenPosition("weeding_lust", 228, 40, "weeding_lust", 219, 35);
+    pc_width = 33;
+    lil_pc_div_img.style.width = "33px";
+}
+else if (V.passage == "Eden Shoot" || V.passage == "Eden Shoot First Focus" || V.passage == "Eden Shoot Focus") {
+    pc_width = 175;
+    lil_pc_div_img.style.width = "175px";
+    lil_pc_div_img.style.height = "33px";
+    setPCandEdenPosition("shoot", 55, 95, "shoot", 47, 94);
+}
+else if (V.passage == "Eden Lunch") {
+    pc_width = 28;
+    lil_pc_div_img.style.width = "28px";
+    lil_eden_div_img.style.zIndex = "0";
+    setPCandEdenPosition("lunch" + V.daily.eden_lunch, 18, 27, "lunch", 0, 23);
+}
+else if (V.passage == "Clearing Weeding" && V.danger >= (9900 - V.allure) && ((Time.hour > 6 && Time.hour < 11) || Time.hour > 14) && !(V.rng >= 51 && V.tentacledisable == "f" && (V.hallucinations >= 2 || V.backgroundTraits.includes("plantlover")))) {
+    setPCandEdenPosition("front", 218, 40, "breakfast_lust", 230, 33);
+}
+else if (Time.hour >= 9 && Time.hour <= 10) {
+    setPCandEdenPosition(null, null, null, "water", 225, 38);
+}
+else if (Time.hour == 15 && !(V.rng >= 91 && !V.edenhurt)) {
+    setPCandEdenPosition(null, null, null, "peel", 0, 23);
+}
+else if (Time.hour == 16) {
+    setPCandEdenPosition(null, null, null, "axe", 93, 75);
+    if (!V.daily.eden_chop_lust && C.npc.Eden.lust >= 26) {
+        setPCandEdenPosition("back", 86, 93, null, null, null);
+        lil_eden_div_img.style.zIndex = "0";
     }
-    else if(V.passage == "Eden Lunch"){
-      pc_width = 28;
-      lil_pc_div_img.style.width = "28px";
-      lil_eden_div_img.style.zIndex = "0";
-      setPCandEdenPosition("lunch" + V.daily.eden_lunch,20,27,"lunch",2,23);
-    }
-		else if(V.passage == "Clearing Weeding" && V.danger >= (9900 - V.allure) && ((Time.hour > 6 && Time.hour < 11) || Time.hour > 14) && !(V.rng >= 51 && V.tentacledisable == "f" && (V.hallucinations >= 2 || V.backgroundTraits.includes("plantlover")))){
-			setPCandEdenPosition("front", 220, 40, "breakfast_lust", 232, 33);
-		}
-		else if(Time.hour >= 9 && Time.hour <= 10){
-			setPCandEdenPosition(null,null,null,"water",227,38);
-		}
-		else if(Time.hour == 15 && !(V.rng >= 91 && !V.edenhurt)){
-			setPCandEdenPosition(null,null,null,"peel",2,23);
-		}
-		else if(Time.hour == 16){
-			setPCandEdenPosition(null,null,null,"axe",95,75);
-			if(!V.daily.eden_chop_lust && C.npc.Eden.lust >= 26){
-				setPCandEdenPosition("back",88,93,null,null,null);
-				lil_eden_div_img.style.zIndex = "0";
-			}
-		}
-		
+}
+else{
+  randomPCdirection();
+}
 
-		/*pc单独行动*/
-		if(V.passage == "Clearing Weeding" && !(V.danger >= (9900 - V.allure))){
-			setPCandEdenPosition("weeding",230,40,null,null,null);
-		}
-		else if(V.passage == "Clearing Spring"){
-			setPCandEdenPosition("spring",8,85,null,null,null);
-			if(V.danger >= (9900 - V.allure) && C.npc.Eden.lust >= 26 && ((Time.hour > 6 && Time.hour < 11) || Time.hour > 14)){
-				setPCandEdenPosition("spring",null,null,"bath_withpc",21,77);
-				lil_eden_div_img.style.zIndex = "0";
-			}
-		}
-		else if(V.passage == "Eden Porch"){
-			setPCandEdenPosition("sit_left",28,25,null,null,null);
-		}
-		else if(V.passage == "Eden Plots"){
-			setPCandEdenPosition(null,230,80,null,null,null);
-		}
-	
-		lil_eden.setAttribute("src","img/misc/lil_eden/" + eden_direction + "_" + V.NPCName[6].pronoun + ".gif");
-        lil_eden.setAttribute("class","pc_img_body");
-        lil_eden_div_img.appendChild(lil_eden);
-		lil_pc_div_img.style.setProperty("--lil_pc_x",lil_pc_x);
-		lil_pc_div_img.style.setProperty("--lil_pc_y",lil_pc_y);
-        lil_eden_div_img.style.setProperty("--lil_eden_x",lil_eden_x);
-        lil_eden_div_img.style.setProperty("--lil_eden_y",lil_eden_y);
+/*pc单独行动*/
+if (V.passage == "Clearing Weeding" && !(V.danger >= (9900 - V.allure))) {
+    setPCandEdenPosition("weeding", 228, 40, null, null, null);
+}
+else if (V.passage == "Clearing Spring") {
+    setPCandEdenPosition("spring", 6, 85, null, null, null);
+    if (V.danger >= (9900 - V.allure) && C.npc.Eden.lust >= 26 && ((Time.hour > 6 && Time.hour < 11) || Time.hour > 14)) {
+        setPCandEdenPosition("spring", null, null, "bath_withpc", 19, 77);
+        lil_eden_div_img.style.zIndex = "0";
+    }
+}
+else if (V.passage == "Eden Porch") {
+    setPCandEdenPosition("sit_left", 26, 25, null, null, null);
+}
+else if (V.passage == "Eden Plots") {
+    setPCandEdenPosition(null, 228, 80, null, null, null);
+}
+
+lil_eden.setAttribute("src", "img/misc/lil_eden/" + eden_direction + "_" + V.NPCName[6].pronoun + ".gif");
+lil_eden.setAttribute("class", "pc_img_body");
+lil_eden_div_img.appendChild(lil_eden);
+lil_pc_div_img.style.setProperty("--lil_pc_x", lil_pc_x);
+lil_pc_div_img.style.setProperty("--lil_pc_y", lil_pc_y);
+lil_eden_div_img.style.setProperty("--lil_eden_x", lil_eden_x);
+lil_eden_div_img.style.setProperty("--lil_eden_y", lil_eden_y);
+
 
 		/*遍历颜色变量 */
 		var lil_pc_hair_color = getColor(setup.colours.hair, V.haircolour);
@@ -833,10 +831,6 @@ $(document).ready(function() {
   }
 });
 	}
-
-
-	var eden_svg = document.getElementsByTagName("svg");
-	eden_svg[0].style.position = "absolute";
 
 /*刷新动图，让他们同步 */
 	reLoadAllGIFs();

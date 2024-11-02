@@ -395,3 +395,105 @@ V.animalEarCheck = earConditions.some(condition => condition);
 <<endcombat>>
 
 <<link [[继续|Cabin Actions]]>><</link>>
+
+:: Eden Gun
+
+<<skulduggerycheck>>
+<<if $skulduggerysuccess is 1>>
+你注意到伊甸坐在火炉旁努力地擦拭着<<he>>的猎枪。<<he>>甚至专注到屏气凝神的地步。火炉劈啪作响，掩盖了你的脚步声。你悄无声息的向<<he>>背后靠近。<br><br>
+<<else>>
+伊甸注意到你的动静，向后看了你一眼。
+<</if>>
+<<link [[只是看着<<he>>|Eden Gun 2]]>><<set $daily.eden_gun to 1>><</link>><br>
+<<link [[趴在<<he>>背上|Eden Gun 2]]>><<set $daily.eden_gun to 2>><</link>>
+
+:: Eden Gun 2
+<<if $daily.eden_gun is 1>>
+你借着火光看着<<he>>仔细地擦拭枪管，直到那有着一些斑驳痕迹的金属反光。<<he>>貌似很享受这一过程，慢条斯理地一遍遍擦拭。<br>
+不知过了多久，或是因为乏累，伊甸扶着后颈闭上眼向后扭着脖子，<<he>>睁眼时正好对上你的视线，身体很明显地颤了一下。<br><br>
+
+“哦……我都没注意到你在这里。”<<he>>抬头看着你，将手上的枪管放下，“你看了有多久了？你貌似很感兴趣。”<br>
+<<he>>微笑着伸出一只手揽住你的腰肢，轻抚几下示意你坐在<<he>>身边。<br>
+“没有多久。我只是……不想打扰你。”你偏过视线，脸上微微有了红晕，但还是任由<<he>>搂着坐在<<he>>身旁。<br>
+火炉的光温和的照着伊甸半侧脸，<<he>>仍然微笑地看着你，你又不禁看着<<he>>出神。<<garousal>><<arousal 1000>><br><br>
+
+“我需要花一定时间照料它。不过为了狩猎不出意外，这值得。”伊甸轻轻把枪管递到你的手里，枪管金属上<<he>>的余温还未消散。伊甸又和你说了一些关于<<he>>外出狩猎时发生的一些小意外或者有趣的经历，期间<<he>>一直搂着你。<<lllstress>><<stress -10>>
+
+<<elseif $daily.eden_gun is 2>>
+你选择突然扑向<<he>>，紧紧搂住<<he>>的脖子并且上半身完全贴合<<he>>的背部曲线。<br>
+<<he>>很明显被你吓到，肌肉瞬间紧绷，下意识拽着你的手腕把你摔到<<he>>面前，借着火光看清是你之后才微微松开手。但<<he>>仍然皱着眉头，眼神危险到你不禁打了个寒颤。<<ggpain>><<ggstress>><<pain 5>><<stress 5>><br>
+你可以想象到猎物在那眼神下无助的身影。而你和它的身影重合。你肾上腺素飙升，但伊甸仍然轻松把你制服，紧紧握着你的手腕，你动弹不得。<<ggstress>><<stress 5>><br><br>
+
+“我不知道是你。但是，下次不要再这么干了。”伊甸语气冰冷。<<he>>甩开你的手腕，扶着你坐起来。然后低头继续去擦<<he>>的枪。你能感受到<<he>>的呼吸仍然有些沉重。<br>
+你试图再和<<he>>说些什么，但<<he>>也只是简单应和着。<br>
+“我的手腕很痛。”你皱着眉，眼角的泪水难以抑制，刚刚的经历让你回想起来你们初遇时，伊甸的眼神和当时一样冰冷而危险。<<ggtrauma>><<trauma 4>><br><br>
+
+伊甸回头看着你，<<he>>神情明显柔和许多，粗糙的大手扶上你的手腕并轻轻按摩着刚刚<<he>>抓握的位置。“我很抱歉。但我不是有意……”<<he>>把你拉入怀里安抚。“所以说不要给我制造这么多“惊喜。””<<he>>叹了口气。
+<</if>>
+<br><br>
+
+<<link [[继续|Eden Cabin]]>><</link>>
+
+
+:: Eden Figure
+
+伊甸不知什么时候从你身后用一只手搂着你的肩膀。你微微抬头，<<he>>忽视了你，仍然看着那个木雕，明显有点紧张。显而易见这木雕是<<he>>雕刻的。<br>
+
+<<if $wolfgirl gte 6>>
+你能看出略显粗糙的木雕是一只小狼。正端坐着，尾巴乖巧的贴在身旁。不过很明显的是它脖子上有一个项圈——这绝对是故意的。
+<<elseif $fox gte 6>>
+你能看出这木雕雕刻的是一只狐狸。蜷缩着眯着眼睛，看起来很安逸。
+<<elseif $cat gte 6>>
+你能看出这木雕雕刻的是一只小猫。不过还是比较胖的那种，正慵懒地伸着懒腰。你隐约可以分辨出它脖子上的项圈，甚至还有铃铛，可见雕刻者的细心程度。
+<<elseif $cow gte 6>>
+你能勉强看出这木雕是一只牛。只有头和脖颈便已占去蛮大的空间。脖子上的项圈很显眼。
+<<elseif $harpy gte 6>>
+你能看出这木雕是一只鸟。正伸展着翅膀，张着嘴貌似在歌唱。你有种想要抖抖自己羽翼的冲动。
+<</if>><<llstress>><<stress -7>><br>
+
+伊甸的手仍然搭在你肩膀上。<<he>>的呼吸有点慌乱，貌似期待着你的评价。<br><br>
+
+<<link [[给予好评|Eden Figure 2]]>><<set $daily.eden_figure to 1>><</link>><br>
+<<link [[趁此机会怼他一句|Eden Figure 2]]>><<set $daily.eden_figure to 2>><</link>>
+
+:: Eden Figure 2
+
+<<run const tailConditions = [
+  V.fox >= 6 && V.transformationParts.fox?.tail !== "hidden",
+  V.cow >= 6 && V.transformationParts.cow?.tail !== "hidden",
+  V.cat >= 6 && V.transformationParts.cat?.tail !== "hidden",
+  V.wolfgirl >= 6 && V.transformationParts.wolf?.tail !== "hidden"
+];
+V.animalTailCheck = tailConditions.some(condition => condition);
+
+const earConditions = [
+  V.fox >= 4 && V.transformationParts.fox?.ears !== "hidden",
+  V.cow >= 4 && V.transformationParts.cow?.ears !== "hidden",
+  V.cat >= 4 && V.transformationParts.cat?.ears !== "hidden",
+  V.wolfgirl >= 4 && V.transformationParts.wolf?.ears !== "hidden"
+];
+
+V.animalEarCheck = earConditions.some(condition => condition);
+>>
+<<if $daily.eden_figure is 1>>
+“这……我没有想到你还会木雕。雕刻的是我吗？”
+
+<<if $harpy gte 6 && $transformationParts.bird.wings isnot "hidden">>
+你拍了拍翅膀。
+<<elseif $animalTailCheck>>
+你晃了晃尾巴。
+<</if>>
+
+“很……很可爱。难道我在你心里……是这样的吗？”<br>
+伊甸松了口气。<<he>>看向你的眼神充满爱意以及被你认可的感激。“也许是吧。只是雕刻的时候想到了你……还有你可爱的样子。”
+<<if $harpy gte 6 && $transformationParts.bird.wings isnot "hidden">>
+<<he>>轻抚你背部的羽翼。
+<<elseif $animalEarCheck>>
+<<he>>轻抚你的兽耳，直到你身体微微颤抖。
+<</if>>“你喜欢就好。”伊甸轻吻你的额头。
+
+<<else>>
+“……这是什么东西？”你摇摇头。伊甸失望的从你的肩膀上移开<<he>>的手，挠了挠后脑勺。“好吧……或许下次会更好一些。”<<he>>失望的走开了。
+<</if>><br><br>
+
+<<link [[继续|Eden Cabin]]>><</link>>
